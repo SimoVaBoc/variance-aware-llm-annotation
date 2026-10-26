@@ -1,0 +1,128 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_deepseek_hf_route_v3_full.json",
+    "original_sha256": "cbbf4d67f63e6f11fbe5d05b9d3be734ff25f26b7974a49dcd2b50b1938b6d38",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.chain.[1].records",
+      "decision.verdict",
+      "decision.basis",
+      "decision.decided_by",
+      "decision.decided_utc",
+      "pilot_evidence",
+      "interpretive_corrections",
+      "status",
+      "counterbalancing_exception.independence_from_labels_and_outcomes.empirical",
+      "budget_guard.note",
+      "relationship_to_the_openrouter_run.re:^openrouter_\\d+_calls$"
+    ],
+    "hashes_note": "Hashes recorded in this file refer to the original files, which are not distributed; they do not match the derived copies."
+  },
+  "route_id": "chapter3_deepseek_hf_route_v3_full",
+  "created_utc": "2026-09-30",
+  "scope": "full DeepSeek arm, 4000 calls",
+  "supersedes": {
+    "chain": [
+      {
+        "route_id": "chapter3_deepseek_hf_route_v1",
+        "file": "config/routes/chapter3_deepseek_hf_route_v1.json",
+        "file_sha256": "19b43fdcc639db3630d479c7b11242b671a7672b22ba06ea5dcc3f082d9a820e",
+        "records": "what the free metadata established before any call was made"
+      },
+      {
+        "route_id": "chapter3_deepseek_hf_route_v2",
+        "file": "config/routes/chapter3_deepseek_hf_route_v2.json",
+        "file_sha256": "8a797b2b7f5f46da479f98b679e81ecd0cdedcc3488156d816bcb200e90afd8a"
+      }
+    ],
+    "note": "v1 and v2 are left byte-identical. Each records what was known at its own moment, and rewriting either would destroy the record of how the decision was reached."
+  },
+  "decision": {
+    "terms": [
+      "Caps, temperatures, prompts and the strict binary parser are unchanged. Nothing in the design moves to accommodate the route.",
+      "Parse errors are never retried. The slot is consumed and the original output is preserved verbatim.",
+      "A parse error is treated as missing, never as a zero. A missing label is not a negative classification, and coding it as one would manufacture agreement with the majority class.",
+      "Effective denominators are reported everywhere: every rate, metric and regression states the number of usable observations rather than the number of planned calls.",
+      "A missingness diagnostic is planned: where the parse errors fall by arm, strategy, paraphrase, item, label order and campaign length, so that non-random missingness is visible rather than assumed away.",
+      "Carlson and Camuffo run on the same route. Splitting them across providers would confound the serving backend with the methodological approach, which is the one comparison the two-arm design exists to make."
+    ]
+  },
+  "gateway": {
+    "name": "huggingface_router",
+    "base_url": "https://router.huggingface.co/v1",
+    "credential_env_var": "HF_TOKEN",
+    "serving_provider": "deepinfra",
+    "allow_fallbacks": false,
+    "model_id_sent": "deepseek-ai/DeepSeek-V4-Pro-0813:deepinfra"
+  },
+  "counterbalancing_exception": {
+    "status": "expected_and_verified_not_a_contract_violation",
+    "what_looks_wrong": "verify_counterbalancing refuses the DeepSeek slice: paraphrase cm_base is 120/130 and cm_paraphrase_2 is 137/113 by cell, and the two orders differ by 14 cells over 750 against a tolerance of one.",
+    "why_it_is_not_a_violation": "The frozen contract promises balance over the whole manifest, not within each model. The manifest's own metadata declares the unit as 'cell (item x model x template)' with n_blocks 750, which is 250 items times 3 models, and states cell_balance 1125/1125, calls_balance 3375/3375 and per_variant 375/375 for each paraphrase. It declares no per-model figure and promises none. assign_label_orders says the same: every paraphrase receives the two orders equally often 'across items and models'.",
+    "verified_counts_in_the_frozen_full_manifest": {
+      "deepseek_v4_pro": {
+        "calls": {
+          "01": 1104,
+          "10": 1146
+        },
+        "cells": {
+          "01": 368,
+          "10": 382
+        }
+      },
+      "sonnet_5": {
+        "calls": {
+          "01": 1128,
+          "10": 1122
+        },
+        "cells": {
+          "01": 376,
+          "10": 374
+        }
+      },
+      "terra_5_6": {
+        "calls": {
+          "01": 1143,
+          "10": 1107
+        },
+        "cells": {
+          "01": 381,
+          "10": 369
+        }
+      },
+      "sum": {
+        "calls": {
+          "01": 3375,
+          "10": 3375
+        },
+        "cells": {
+          "01": 1125,
+          "10": 1125
+        }
+      },
+      "sum_spread": 0,
+      "matches_the_declared_metadata": true
+    },
+    "independence_from_labels_and_outcomes": {
+      "structural": "_block_digest hashes 'study_id:model_id:item_id' only. No human label, outcome, covariate or campaign text enters the assignment.",
+      "reproduced": "Recomputing assign_label_orders from those three ids reproduces every one of the 6750 Camuffo rows, with zero mismatches."
+    },
+    "decision": "Inherited, not repaired. Rebalancing the slice would reassign label orders, change the rendered system prompts and therefore the Camuffo payload digests, destroying the payload match with the OpenRouter slice that the run exists to enable. Payloads and label orders are left exactly as the frozen design fixed them.",
+    "what_the_live_runner_checks": "verify_schema, verify_rows_against_config and collect_blockers. verify_counterbalancing is called only by manifest generation, never at run time, which is why the dry run reports zero blockers."
+  },
+  "budget_guard": {
+    "cost_field": "usage.estimated_cost",
+    "cost_is_provider_estimate": true,
+    "guard_aborts_on": [
+      "cumulative reported cost reaching the cap",
+      "a model other than deepseek-ai/DeepSeek-V4-Pro-0813",
+      "a serving provider other than deepinfra",
+      "HTTP 402"
+    ],
+    "http_402": "never retried; the run stops cleanly and the task keeps its unfilled slot"
+  },
+  "relationship_to_the_openrouter_run": {
+    "results_may_be_pooled": false,
+    "payload_match": "The Hugging Face full manifest carries the same payload multiset and the same label orders as the frozen OpenRouter full manifest, restricted to its DeepSeek slice, so the two are comparable call for call and interchangeable in none."
+  }
+}

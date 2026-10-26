@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.1",
+  "label_set_id": "societal_benefit_labels_v1",
+  "rubric_id": "societal_benefit_v1",
+  "status": "approved",
+  "approval_state": {
+    "substantive_decisions": "researcher_approved",
+    "substantive_decisions_date": "2026-09-22",
+    "json_representation": "researcher_approved",
+    "json_representation_date": "2026-09-22",
+    "note": "The output contract, the retry contract and the reasoning-token contract, and this complete JSON representation, were reviewed and approved by the researcher."
+  },
+  "labels": [
+    {
+      "value": 0,
+      "literal": "0",
+      "meaning": "The main product or service does not present a concrete and plausible mechanism of broader societal benefit beyond ordinary private consumer utility, or the information is insufficient."
+    },
+    {
+      "value": 1,
+      "literal": "1",
+      "meaning": "The main product or service presents a concrete and plausible mechanism generating a benefit beyond ordinary private consumer utility."
+    }
+  ],
+  "output_contract": {
+    "id": "binary_exact",
+    "normalisation": "Strip leading and trailing whitespace only. Nothing else is altered.",
+    "accepted_after_strip": ["0", "1"],
+    "rule": "After stripping, the value must belong exactly to the set {\"0\", \"1\"}.",
+    "accepted_examples": ["0", "1", "0 ", " 1", "1\n", "  0\t\n"],
+    "rejected_examples": ["1.", "01", "1 reasoning", "{\"label\": 1}", "", "   ", "10", "0.0", "yes", "+1"],
+    "on_violation": {
+      "status": "parse_error",
+      "parsed_label": null,
+      "forbidden_fallback": "A parse_error must never be silently coerced to 0, to 1, or to any default. The record is kept with a null label."
+    }
+  },
+  "retry_policy_contract": {
+    "technical_retries_are_recorded_separately": true,
+    "retry_is_not_a_replicate": "A technical retry re-sends the same task under the same sample_index. It increments attempt_count on one single record and never yields an additional independent sample.",
+    "failure_kinds": [
+      {
+        "id": "technical_failure",
+        "definition": "A transport error, rate limit, timeout or API error in which no completion was received from the provider.",
+        "automatic_retry": true,
+        "retry_rule": "A bounded technical retry may be made on the same task and the same sample_index.",
+        "increments": ["attempt_count", "retry_count"],
+        "slot_consumed": false,
+        "yields_valid_label": false
+      },
+      {
+        "id": "parse_error",
+        "definition": "The provider returned a completion, but its content is not exactly '0' or '1' after stripping whitespace.",
+        "automatic_retry": false,
+        "retry_rule": "Record status parse_error, preserve the original output verbatim in raw_response, and do NOT retry automatically.",
+        "increments": ["attempt_count"],
+        "slot_consumed": true,
+        "yields_valid_label": false,
+        "slot_note": "A parse_error occupies the planned sample slot. The slot is consumed and is never automatically refilled by a new call.",
+        "forbidden": [
+          "Retrying a parse_error automatically.",
+          "Automatically replacing the missing sample with a new call.",
+          "Coercing the output to 0, to 1, or to any default."
+        ],
+        "rationale": "Retrying only those responses that violated the output format would condition the realised sample on format compliance. Format compliance is not plausibly ignorable with respect to the construct, so the surviving sample would no longer be the planned one."
+      }
+    ],
+    "remediation": {
+      "status": "not_implemented",
+      "requirements": [
+        "Any later remediation must preserve the original output unchanged.",
+        "It must be explicitly marked as remediation in the record.",
+        "It stays excluded from the primary analysis unless a future pre-registered decision admits it."
+      ]
+    },
+    "sample_bearing_statuses": ["success"],
+    "slot_consuming_statuses": ["success", "parse_error"],
+    "fields": {
+      "attempt_count": "Total provider calls made for this task, technical retries included.",
+      "retry_count": "Technical attempts beyond the first. A parse_error never increments it.",
+      "slot_consumed": "True when a completion was received, so for success and for parse_error alike.",
+      "counts_as_sample": "True only when status is success. A false value does NOT license a replacement call.",
+      "is_remediation": "True only for a record produced by an explicitly marked remediation pass. Excluded from the primary analysis.",
+      "finish_reason": "The provider's own termination reason, recorded verbatim. Required for the Camuffo arm, whose one-token cap makes truncation a plausible cause of a parse_error.",
+      "label_order": "For the Camuffo arm, which label rule was presented first, '10' or '01'. Null for the Carlson arm."
+    },
+    "truncation_note": "max_output_tokens is a transport cap, not a semantic guarantee of the output format. The strict binary parser remains the authoritative check. A parse_error accompanied by a length-type finish_reason indicates truncation rather than a malformed answer, and must be reported separately."
+  },
+  "reasoning_contract": {
+    "provider_native_reasoning": "disabled",
+    "visible_output": "The visible output must be only 0 or 1.",
+    "reasoning_tokens_reporting": {
+      "rule": "Never assume reasoning_tokens = 0 when the provider omits the field.",
+      "when_reported": "Record the provider's value in reasoning_tokens and set reasoning_tokens_reported to true.",
+      "when_absent": "Record reasoning_tokens as null and reasoning_tokens_reported as false.",
+      "note": "Absence of the usage field does not by itself demonstrate that no reasoning tokens were consumed."
+    }
+  }
+}

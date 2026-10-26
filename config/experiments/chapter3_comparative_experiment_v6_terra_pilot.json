@@ -1,0 +1,528 @@
+{
+  "review_redaction": {
+    "derived_from": "config/experiments/chapter3_comparative_experiment_v6_terra_pilot.json",
+    "original_sha256": "cb2757698e30b5a8173867cd3ca9394397912921a3c9c00fc73dad919f721c96",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "filename_note",
+      "supersedes.changes.[5]",
+      "deviations_from_camuffo.[7].deviation",
+      "deviations_from_camuffo.[8].deviation",
+      "execution.max_output_tokens_note",
+      "scopes.smoke_first_party_v2_terra_camuffo.description",
+      "scopes.pilot_terra_first_party.item_source",
+      "first_party_smoke.status",
+      "first_party_smoke.manifest",
+      "first_party_smoke.outputs",
+      "first_party_smoke.caps",
+      "first_party_smoke_v2.status",
+      "first_party_smoke_v2.manifest",
+      "first_party_smoke_v2.smoke_v1_log",
+      "terra_pilot.status",
+      "terra_pilot.manifest",
+      "terra_pilot.smokes"
+    ],
+    "hashes_note": "Hashes recorded in this file refer to the original files, which are not distributed; they do not match the derived copies."
+  },
+  "schema_version": "2.0",
+  "experiment_id": "chapter3_two_arm_v6_terra_pilot",
+  "study_id": "chapter3_psm_v2",
+  "title": "Chapter 3 contingency framework, GPT-5.6 Terra pilot on the 12 DeepSeek pilot items",
+  "design_label": {
+    "camuffo_arm": "feasibility-adapted Camuffo-type variance-aware design",
+    "carlson_arm": "adapted replication of the seven Table 3 prompting strategies",
+    "rule": "The Camuffo arm must never be described as a literal replication of the full Camuffo et al. appendix. It adapts the variance-aware logic to the scale of a thesis. Every departure is listed under deviations_from_camuffo."
+  },
+  "status": "prepared_for_terra_pilot",
+  "created_date": "2026-10-21",
+  "supersedes": {
+    "file": "config/experiments/chapter3_comparative_experiment_v5_terra_camuffo_cap16_smoke.json",
+    "file_sha256": "c5c95145cca912f4031c77e50c35e993264c971bd602e5fb89e728b3bfd6a22b",
+    "relationship": "derived_for_terra_pilot; v5 stays the configuration of Terra smoke v2",
+    "changes": [
+      "arms.camuffo.max_output_tokens_status: researcher decision for the Terra pilot",
+      "execution.max_output_tokens_note rewritten for this file",
+      "execution.prompt_caching added",
+      "deviations_from_camuffo: camuffo_cap_16_terra_pilot added",
+      "scopes.pilot_terra_first_party and expected_calls of the same name added"
+    ],
+    "unchanged": "references, dataset, models and their request settings, prompts, system messages, label orders, P, S, temperatures (0 Carlson, 1 Camuffo), reasoning_effort 'none', both caps (16 and 16, as in v5), the binary parser, temperature_policy, sample_slot_policy, aggregation, downstream, generation_gates, open_decisions"
+  },
+  "references": {
+    "rubric": {
+      "id": "societal_benefit_v1",
+      "file": "config/rubrics/societal_benefit_v1.json",
+      "canonical_json_sha256": "325dad579c287c6cf0ed1a663d7175787293b77cd84dbe37c261bb463ca36294",
+      "approval_status": "approved",
+      "approval_note": "Approved by the researcher on 2026-09-22, content and JSON representation."
+    },
+    "labels": {
+      "id": "societal_benefit_labels_v1",
+      "file": "config/labels/societal_benefit_labels_v1.json",
+      "canonical_json_sha256": "adb36a6721cd60a406f7d714d2709c53de86cb87ff35a51d8ba3647a143cf85f",
+      "approval_status": "approved",
+      "approval_note": "Approved by the researcher on 2026-09-22, content and JSON representation."
+    },
+    "camuffo_prompts": {
+      "id": "camuffo_societal_benefit_P3_v1",
+      "file": "config/prompts/camuffo_societal_benefit_P3_v1.json",
+      "canonical_json_sha256": "3d81c29c156d2278d69f08cd6923a51d636ff61d51c6c34deb4c88a480776f14",
+      "approval_status": "approved",
+      "approval_note": "Approved by the researcher on 2026-09-22. Authored ex ante by the researcher; the rubric is a reconstruction, not the original human codebook."
+    },
+    "carlson_prompts": {
+      "id": "carlson_table3_v1",
+      "file": "config/prompts/carlson_table3_v1.json",
+      "canonical_json_sha256": "32debfb56d3414da80b54c1ebd37b97087a49e595068872b3b2723b1cce22f46",
+      "approval_status": "approved",
+      "approval_note": "Visually verified by the researcher against PDF page 13, printed page 711, on 2026-09-22. The file stores a normalised Unicode transcription, not the authors' original prompt bytes."
+    },
+    "source_paper": {
+      "file": "docs/sources/carlson_burbano_2026.pdf",
+      "file_sha256": "a6e723d03d4a617fd8875f12eb9a1824ce9aa6e7edf3a48be1a97aca3b15d7ce"
+    }
+  },
+  "dataset": {
+    "path": "data/test_sample.csv",
+    "encoding": "latin1",
+    "expected_rows": 250,
+    "text_column": "text",
+    "human_label_column": "HUMAN",
+    "outcome_column": "success",
+    "control_columns": [
+      "lgoal",
+      "subcategory",
+      "year"
+    ],
+    "item_id_prefix": "CB",
+    "text_policy": "as_is_latin1",
+    "encoding_decision_ref": "config/chapter3_experiment.json#dataset.encoding_decision"
+  },
+  "selection_status_note": "The value 'confirmed_by_user' on each model is a LEGACY TECHNICAL TOKEN, read by the gate in python/src/chapter3/execution.py and shared with the frozen single-arm config. It records only that an exact API model was pinned. It does NOT indicate the provenance of any methodological decision; those are recorded as 'researcher_approved' and 'researcher_authored_ex_ante' in the definition files.",
+  "models": [
+    {
+      "id": "terra_5_6",
+      "provider": "openai",
+      "api_model": "gpt-5.6-terra",
+      "selection_status": "confirmed_by_user",
+      "request_settings": {
+        "reasoning_effort": "none",
+        "temperature_requested": null,
+        "sampling_parameters": "send",
+        "temperature_control": "unverified",
+        "temperature_verification_source": "first_party_api_documentation, read 2026-10-21 via search extracts: https://developers.openai.com/api/docs/models/gpt-5.6-terra lists reasoning_effort values including 'none'; https://developers.openai.com/api/docs/guides/latest-model says temperature is supported only when reasoning_effort is 'none'. Documented, not yet confirmed by a live response."
+      }
+    },
+    {
+      "id": "sonnet_5",
+      "provider": "anthropic",
+      "api_model": "claude-sonnet-5",
+      "selection_status": "confirmed_by_user",
+      "request_settings": {
+        "thinking": "disabled",
+        "temperature_requested": null,
+        "sampling_parameters": "omit",
+        "temperature_control": "unavailable",
+        "temperature_verification_source": "first_party_api_documentation, read 2026-10-21 via search extracts: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5 and https://platform.claude.com/docs/en/models/sonnet-5/overview: Claude Sonnet 5 rejects non-default temperature, top_p and top_k with HTTP 400, with or without thinking; thinking must be disabled explicitly with {type: 'disabled'}, since omitting it defaults to adaptive thinking."
+      }
+    },
+    {
+      "id": "deepseek_v4_pro",
+      "provider": "deepseek",
+      "api_route": "openrouter",
+      "api_model": "deepseek/deepseek-v4-pro-0813",
+      "selection_status": "confirmed_by_user",
+      "request_settings": {
+        "reasoning": "disabled",
+        "temperature_requested": null,
+        "temperature_control": "unverified",
+        "temperature_verification_source": null,
+        "openrouter_provider_only": [
+          "Baidu"
+        ],
+        "openrouter_allow_fallbacks": false
+      }
+    }
+  ],
+  "arms": {
+    "camuffo": {
+      "prompt_set_id": "camuffo_societal_benefit_P3_v1",
+      "P": 3,
+      "S": 3,
+      "M": 3,
+      "calls_per_item_per_model": 9,
+      "max_output_tokens": 16,
+      "max_output_tokens_status": "researcher_decided_for_terra_pilot_2026-10-21",
+      "temperature_requested": 1,
+      "label_orders": [
+        "10",
+        "01"
+      ],
+      "counterbalancing": {
+        "enabled": true,
+        "unit": "cell (item x model x template)",
+        "assignment": "deterministic_from_block_digest",
+        "s_is_a_pure_replicate": "All S samples of a cell share one label order and one byte-identical payload. S measures variation between independent calls at an unchanged configuration; it is not made robust to the label order.",
+        "both_orders_in_every_block": "Within each item x model block, the three paraphrases carry both orders, two against one.",
+        "minority_rotates": "The paraphrase holding the minority order rotates deterministically through P1, P2 and P3 as the block rank advances, so each paraphrase receives both orders evenly across items and models.",
+        "balanced_within_scope": "Perfectly balanced when the number of blocks is even; apart by at most one cell otherwise.",
+        "adds_no_calls": true,
+        "recorded_in": [
+          "manifest",
+          "result records"
+        ],
+        "algorithm_ref": "python/src/chapter3/manifest.py#assign_label_orders",
+        "interpretation": "The label order is an interface factor, counterbalanced across cells and recorded separately. P measures wording variation; S measures call-to-call variation at a fixed configuration."
+      },
+      "samples_rationale": "S = 3 is a feasibility adaptation driven by cost. It is BELOW the values typically indicated by Camuffo et al. and must be reported as an adaptation, not as the recommended design."
+    },
+    "carlson": {
+      "prompt_set_id": "carlson_table3_v1",
+      "strategies": 7,
+      "S": 1,
+      "M": 3,
+      "calls_per_item_per_model": 7,
+      "max_output_tokens": 16,
+      "max_output_tokens_status": "fixed",
+      "temperature_requested": 0,
+      "aggregate_across_strategies": false,
+      "replication_status": "adapted_replication",
+      "counterbalancing": {
+        "enabled": false,
+        "reason": "The seven prompts are canonical transcriptions of Table 3 and are never reordered."
+      }
+    }
+  },
+  "aggregation": {
+    "status": "researcher_approved",
+    "approved_by": "researcher",
+    "approved_date": "2026-09-22",
+    "minimum_valid_contributions": 2,
+    "rule": "At every level, at least two valid contributions are required. With three valid contributions the majority decides. With two valid contributions that agree, their label decides. With two valid contributions that disagree, the result is null. With one or zero valid contributions, the result is null. Parse errors and missing outputs are never substituted.",
+    "rationale_for_the_minimum": "A single surviving call is not a majority of anything. Letting it decide would make the annotation of the worst-covered cells rest on whichever call happened to return a parseable answer.",
+    "missingness": {
+      "parse_error_is_not_replaced": true,
+      "missing_output_is_not_replaced": true,
+      "no_imputation": "A missing or unparsable label is never imputed, defaulted or resampled.",
+      "record_fields": [
+        "n_valid",
+        "n_expected",
+        "votes_1",
+        "votes_0",
+        "tied",
+        "complete",
+        "null_reason",
+        "aggregated_label"
+      ],
+      "null_reasons": [
+        "no_valid_contributions",
+        "below_minimum_valid_contributions",
+        "valid_contributions_tied"
+      ]
+    },
+    "hierarchy": [
+      {
+        "level": 1,
+        "over": "S",
+        "within": "prompt-model pair"
+      },
+      {
+        "level": 2,
+        "over": "P",
+        "within": "model"
+      },
+      {
+        "level": 3,
+        "over": "M",
+        "within": "item, yielding the final annotation"
+      }
+    ],
+    "tie_note": "All three levels have odd cardinality when complete, so a tie can arise only from missingness. The rule handles that case explicitly rather than choosing a silent default.",
+    "comparison_interpretation": "The primary comparison between the two arms is a comparison of two complete methodological approaches. It is NOT a causal identification of the isolated effect of aggregation.",
+    "robustness_check": "pooled majority over all 27 outputs, secondary only",
+    "implementation_ref": "python/src/chapter3/hierarchy.py"
+  },
+  "temperature_policy": {
+    "primary": {
+      "id": "approach_faithful",
+      "status": "researcher_approved",
+      "approved_date": "2026-09-22",
+      "carlson_temperature_requested": 0,
+      "camuffo_temperature_requested": 1,
+      "rationale": "Each arm is decoded as its own source design prescribes: 0 for the Carlson replication, as the paper reports, and 1 for the Camuffo arm so that the S replicates are informative rather than near-deterministic.",
+      "when_control_unavailable": "Do NOT simulate the parameter. Omit it, let the provider's native default apply, and record temperature_control as 'unavailable'.",
+      "verification_rule": "OpenRouter endpoint metadata is not evidence about the first-party API contracts. temperature_verification_source must name what was actually checked.",
+      "interpretation": "The primary comparison is a comparison of two complete methodological approaches. It is NOT a causal identification of the isolated effect of aggregation: prompt set, sampling, temperature and aggregation differ together by design."
+    },
+    "secondary_diagnostic": {
+      "id": "common_decoding_temperature_diagnostic",
+      "status": "prepared_not_generated",
+      "scope": "pilot_deepseek only",
+      "carlson_temperature_requested": 1,
+      "camuffo_temperature_requested": 0,
+      "purpose": "Swap the two temperatures to see how much of the arm difference tracks decoding rather than design.",
+      "constraints": [
+        "Separate manifest and separate result files.",
+        "Excluded from the primary analysis.",
+        "Not included in the primary call counts.",
+        "Never executed automatically; it requires its own explicit instruction."
+      ],
+      "generated": false
+    },
+    "recorded_fields": {
+      "temperature_requested": "What the design asked for. Null while the policy is undecided.",
+      "temperature_accepted": "What the provider reported accepting, when it reports it.",
+      "temperature_parameter_sent": "The parameter actually placed on the wire, or null if none was sent.",
+      "temperature_control": "available | unavailable | unverified",
+      "temperature_verification_source": "Where the availability claim comes from, for example 'openrouter_endpoint_metadata' or 'first_party_api_contract'.",
+      "native_default_observable": "Whether the provider's own default is observable. False means the effective temperature is unknown and must be reported as such."
+    },
+    "reasoning_policy": "Provider-native reasoning stays disabled wherever technically possible, independently of this decision."
+  },
+  "deviations_from_camuffo": [
+    {
+      "id": "samples_below_recommended",
+      "deviation": "S = 3, a feasibility adaptation driven by cost, below the values typically indicated by Camuffo et al."
+    },
+    {
+      "id": "no_independent_audit_set",
+      "deviation": "No autonomous audit set has been constructed so far. The 250 campaigns carry the paper's human labels and serve as the benchmark, not as an independent audit."
+    },
+    {
+      "id": "reconstructed_rubric",
+      "deviation": "The rubric was reconstructed ex ante from the published construct definition and examples. The original human codebook is not available in the materials we hold."
+    },
+    {
+      "id": "temperature_provider_dependent",
+      "deviation": "Temperature control depends on provider capability and is not guaranteed to be available on every route."
+    },
+    {
+      "id": "one_token_cap_untested",
+      "deviation": "max_output_tokens = 1 for the Camuffo arm is proposed and subject to the smoke test. It is a transport cap, not a semantic guarantee."
+    },
+    {
+      "id": "counterbalancing_camuffo_only",
+      "deviation": "Label-order counterbalancing is implemented in the Camuffo arm only. The Carlson prompts are canonical transcriptions and are never reordered."
+    },
+    {
+      "id": "pilot_shape",
+      "deviation": "The pilot is 12 items across every DeepSeek configuration, rather than the 20x1x1 pilot illustrated in the Camuffo et al. appendix."
+    },
+    {
+      "id": "camuffo_cap_16_smoke_v2"
+    },
+    {
+      "id": "camuffo_cap_16_terra_pilot"
+    }
+  ],
+  "sharing": {
+    "enabled": false,
+    "rule": "No prompt is shared between the arms. Sharing may be introduced only if prompt, system message, data, parameters and response contract are identical. The Camuffo rubric must never be weakened to manufacture a shared anchor.",
+    "detection": "The generator computes payload_sha256 for every call and reports collisions between arms as candidates, without using them."
+  },
+  "execution": {
+    "live_calls_enabled": false,
+    "require_explicit_live_flag": true,
+    "require_budget_cap": true,
+    "reasoning_policy": "provider_native_disabled",
+    "response_contract": "binary_exact",
+    "record_finish_reason": true,
+    "finish_reason_note": "Required for the Camuffo arm. If the one-token cap prevents a provider from emitting a valid label, the failure must surface as a truncation, not be silently absorbed as a parse_error. The configuration is never adjusted automatically: the smoke test reports the failure and proposes the smallest reliable value.",
+    "retries_are_not_replicates": true,
+    "sample_slot_policy": {
+      "one_planned_slot_per_task_id": true,
+      "technical_failure": "No completion received. A bounded technical retry on the same task and the same sample_index is permitted.",
+      "parse_error": "A completion was received but is not exactly '0' or '1' after stripping. It is never retried automatically, it consumes its planned slot, and the original output is preserved verbatim.",
+      "no_automatic_replacement": "A missing label is never replaced by a new call. Resampling only the format violations would condition the realised sample on format compliance.",
+      "remediation": "not_implemented; any future remediation preserves the original, is explicitly marked, and stays out of the primary analysis unless a pre-registered decision admits it.",
+      "contract_ref": "config/labels/societal_benefit_labels_v1.json#retry_policy_contract"
+    },
+    "api_keys": "Read from environment variables only. No key or credential appears in this file or any configuration file.",
+    "pilot_item_count": 12,
+    "pilot_selection": "deterministic_hash_without_human_labels",
+    "reuse_pilot_outputs_in_final_analysis": false,
+    "prompt_caching": {
+      "setting": "left_on_automatic",
+      "sent": "nothing: no cache-retention or cache-control parameter is sent",
+      "recorded": "cached_input_tokens and cache_write_input_tokens per call; cache reads and writes are priced in the local estimate",
+      "researcher_note_2026-10-21": "Prompt caching does not reuse responses and requires no change to the S replicates."
+    }
+  },
+  "scopes": {
+    "smoke": {
+      "items": 1,
+      "models": [
+        "deepseek_v4_pro"
+      ],
+      "camuffo_samples": 1,
+      "description": "One call per template. Used to prove assembly, never for analysis."
+    },
+    "pilot_deepseek": {
+      "items": 12,
+      "models": [
+        "deepseek_v4_pro"
+      ],
+      "camuffo_samples": 3,
+      "description": "Single-model pilot on the cheapest route."
+    },
+    "pilot_full": {
+      "items": 12,
+      "models": [
+        "terra_5_6",
+        "sonnet_5",
+        "deepseek_v4_pro"
+      ],
+      "camuffo_samples": 3,
+      "description": "Three-model pilot on the same 12 items."
+    },
+    "full": {
+      "items": 250,
+      "models": [
+        "terra_5_6",
+        "sonnet_5",
+        "deepseek_v4_pro"
+      ],
+      "camuffo_samples": 3,
+      "description": "The complete experiment. Not enabled."
+    },
+    "smoke_first_party": {
+      "items": 1,
+      "item_ids": [
+        "CB221"
+      ],
+      "models": [
+        "terra_5_6",
+        "sonnet_5"
+      ],
+      "camuffo_samples": 3,
+      "description": "Every task of item CB221 for each first-party model: 7 Carlson and 3 paraphrases x 3 repeats. Proves assembly, parameters and accounting; never used for analysis or reused in the full collection."
+    },
+    "smoke_first_party_v2_terra_camuffo": {
+      "items": 1,
+      "item_ids": [
+        "CB221"
+      ],
+      "models": [
+        "terra_5_6"
+      ],
+      "arms": [
+        "camuffo"
+      ],
+      "camuffo_samples": 3
+    },
+    "pilot_terra_first_party": {
+      "items": 12,
+      "item_ids": [
+        "CB003",
+        "CB030",
+        "CB032",
+        "CB083",
+        "CB089",
+        "CB099",
+        "CB110",
+        "CB173",
+        "CB178",
+        "CB219",
+        "CB221",
+        "CB227"
+      ],
+      "models": [
+        "terra_5_6"
+      ],
+      "camuffo_samples": 3,
+      "description": "Every task of GPT-5.6 Terra on the 12 pilot items: 7 Carlson and 3 paraphrases x 3 repeats per item. Smoke outputs are not reused. Pilot outputs are not reused in the final analysis."
+    }
+  },
+  "expected_calls": {
+    "smoke_one_call_per_template": {
+      "camuffo": 3,
+      "carlson": 7,
+      "total": 10
+    },
+    "pilot_deepseek": {
+      "camuffo": 108,
+      "carlson": 84,
+      "total": 192
+    },
+    "pilot_full": {
+      "camuffo": 324,
+      "carlson": 252,
+      "total": 576
+    },
+    "full": {
+      "camuffo": 6750,
+      "carlson": 5250,
+      "total": 12000
+    },
+    "smoke_first_party": {
+      "camuffo": 9,
+      "carlson": 7,
+      "total": 16,
+      "per_model": true
+    },
+    "smoke_first_party_v2_terra_camuffo": {
+      "camuffo": 9,
+      "carlson": 0,
+      "total": 9,
+      "per_model": true
+    },
+    "pilot_terra_first_party": {
+      "camuffo": 108,
+      "carlson": 84,
+      "total": 192,
+      "per_model": true
+    }
+  },
+  "downstream": {
+    "family": "binomial_logit",
+    "primary_formula": "success ~ annotation + lgoal + C(subcategory) + C(year)",
+    "coefficient_of_interest": "annotation",
+    "benchmark_labels": "HUMAN",
+    "specification_status": "confirmed_closed",
+    "specification_ref": "config/chapter3_experiment.json#downstream.specification_decision"
+  },
+  "generation_gates": {
+    "definitive_manifest_requires": [
+      "references.rubric.approval_status == 'approved'",
+      "references.labels.approval_status == 'approved'",
+      "references.camuffo_prompts.approval_status == 'approved'",
+      "references.carlson_prompts.approval_status == 'approved'"
+    ],
+    "behaviour_when_blocked": "The generator raises and names every unmet gate. It never emits a partial or placeholder manifest.",
+    "fixtures_allowed_while_blocked": "Synthetic-fixture generation is permitted while gates are open, because it touches neither the real dataset nor any frozen path. It is refused for the real dataset.",
+    "immutability": "A frozen manifest is never overwritten, with or without a flag. Any change to config, catalog or dataset produces a new version directory or a new study_id, preserving the previous one."
+  },
+  "open_decisions": [
+    "Review and approval of the complete JSON representation of the rubric.",
+    "Review and approval of the complete JSON representation of the label set.",
+    "Review and approval of the complete JSON representation of the Camuffo P3 prompt set.",
+    "How a Camuffo cell with fewer than three valid labels enters the hierarchical majority, now that a parse_error consumes its slot without producing a label. A two-of-three majority is still well defined, but a cell reduced to two or fewer valid labels needs an explicit rule. Not decided; must not be resolved silently.",
+    "Cross-configuration tie rule for the Carlson arm, if any aggregate is ever defined there.",
+    "Mullainathan-type correction estimator.",
+    "Separation and non-convergence handling in the downstream fit.",
+    "Whether temperature = 0 is genuinely unavailable on the first-party OpenAI and Anthropic contracts."
+  ],
+  "first_party_smoke": {
+    "design_deviation_sonnet": {
+      "id": "sonnet_temperature_not_sent",
+      "deviation": "Claude Sonnet 5 receives no temperature on either arm. The design asks for T=0 on the Carlson arm and T=1 on the Camuffo arm; both values stay in the manifest and in every record as temperature_requested, while temperature_parameter_sent is null and temperature_control is 'unavailable'.",
+      "consequence": "For Sonnet, the Carlson arm is decoded at the provider's default rather than at T=0. This is a deviation from the Carlson replication on that model and must be reported as such. The temperature_policy rule for an unavailable control is applied unchanged: omit, never simulate.",
+      "camuffo_arm": "The Messages API reference documents a default temperature of 1.0 (https://platform.claude.com/docs/en/api/messages, read 2026-10-21 via search extract), which is the value the design asks for on this arm; the parameter is still not sent."
+    },
+    "terra": "reasoning_effort 'none'; temperature 0 on Carlson and 1 on Camuffo are sent. Documented as supported with reasoning_effort 'none'; to be confirmed by the smoke."
+  },
+  "first_party_smoke_v2": {
+    "model": "terra_5_6",
+    "tasks": "the nine Camuffo rows of terra_5_6 on CB221, task_id prefix fpsmoke_v2__",
+    "changed": "max_output_tokens 16 instead of 1, on the wire as max_completion_tokens",
+    "unchanged": "prompts, system messages, texts, label orders, 3 paraphrases x 3 repeats, temperature 1, reasoning_effort 'none', the strict binary parser, one attempt per task, stop on any API error",
+    "what_it_tests": "whether Terra accepts the Camuffo request with cap 16, whether the output stays exactly '0' or '1', and whether generation ends on its own (finish_reason 'stop') before the cap",
+    "not_a_criterion": "agreement with DeepSeek or with the human labels"
+  },
+  "terra_pilot": {
+    "model": "terra_5_6",
+    "tasks": "the 192 rows of terra_5_6 on the 12 pilot items from the 12,000-row design manifest, task_id prefix pilot_terra_v1__",
+    "settings": "Carlson: temperature 0, cap 16. Camuffo: temperature 1, cap 16. reasoning_effort 'none' on both arms",
+    "not_a_criterion": "agreement with DeepSeek or with the human labels"
+  }
+}

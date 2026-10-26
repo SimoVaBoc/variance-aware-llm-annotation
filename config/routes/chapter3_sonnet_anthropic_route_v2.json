@@ -1,0 +1,146 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_sonnet_anthropic_route_v2.json",
+    "original_sha256": "bb8180394bdc02df7a173b1fb57e13e2104bfef4d358f9818305182002d5685f",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.relationship"
+    ]
+  },
+  "route_id": "chapter3_sonnet_anthropic_route_v2",
+  "created_utc": "2026-10-21",
+  "scope": "first-party smoke for Claude Sonnet 5 on item CB221, 16 calls. Pilot and full are not covered.",
+  "supersedes": {
+    "file": "config/routes/chapter3_sonnet_anthropic_route_v1.json"
+  },
+  "model": {
+    "model_id": "sonnet_5",
+    "api_route": "anthropic",
+    "api_model": "claude-sonnet-5",
+    "interface": "Messages, client.messages.create",
+    "endpoint": "Anthropic SDK default base URL (first-party API)",
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "gateway": null,
+    "expected_upstream_provider": null,
+    "lifecycle": "Active, with retirement declared not before 30 June 2027 (confirmed by the researcher on 2026-10-21). The model chosen for the design is kept."
+  },
+  "request_settings_on_the_wire": {
+    "carlson": {
+      "max_tokens": 16,
+      "thinking": {
+        "type": "disabled"
+      },
+      "system": false,
+      "temperature": "not sent"
+    },
+    "camuffo": {
+      "max_tokens": 1,
+      "thinking": {
+        "type": "disabled"
+      },
+      "system": true,
+      "temperature": "not sent"
+    },
+    "never_sent": [
+      "temperature",
+      "top_p",
+      "top_k",
+      "stream",
+      "output_format",
+      "tools",
+      "stop_sequences"
+    ],
+    "messages": "one user message per request, plus the system field on the Camuffo arm, exactly as assembled from the catalogue for the manifest row and its label order. Each request is independent: no earlier response enters a later request. The three S repeats of a cell carry byte-identical messages and parameters."
+  },
+  "client": {
+    "sdk_retries": "max_retries=0 on the client; the runner makes one attempt per task",
+    "timeout_seconds": 120,
+    "timeout_note": "Explicit since 2026-10-21 (python/scripts/chapter3_execute.py, SDK_TIMEOUT_SECONDS), applied to connect, read, write and pool. A timeout is an API error without HTTP status: it stops the segment and is never retried."
+  },
+  "documented_capabilities": {
+    "thinking_disabled": {
+      "status": "documented",
+      "evidence": "Sonnet 5 accepts thinking {type: 'disabled'}. Omitting the field defaults to adaptive thinking, so it is sent explicitly.",
+      "sources": [
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5",
+        "https://platform.claude.com/docs/en/models/sonnet-5/overview"
+      ],
+      "to_confirm_in_smoke": "the request is accepted, no thinking or redacted_thinking block is returned, and the thinking count is zero if reported"
+    },
+    "sampling_parameters": {
+      "status": "documented_unavailable",
+      "evidence": "Sonnet 5 rejects non-default temperature, top_p and top_k with HTTP 400, whether or not thinking is active. The Messages API reference documents a default temperature of 1.0.",
+      "sources": [
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5",
+        "https://platform.claude.com/docs/en/models/sonnet-5/overview",
+        "https://platform.claude.com/docs/en/api/messages"
+      ],
+      "handling": "temperature, top_p and top_k are never sent (request setting sampling_parameters 'omit'). Each record keeps temperature_requested from the manifest (0 Carlson, 1 Camuffo), temperature_parameter_sent null and temperature_control 'unavailable'. The omitted parameter is not a verified control of temperature."
+    },
+    "max_tokens": {
+      "status": "documented_without_a_stated_minimum",
+      "evidence": "Generation stops at max_tokens with stop_reason 'max_tokens'; a normal finish is 'end_turn'. No minimum value was found in what was read.",
+      "sources": [
+        "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons"
+      ],
+      "to_confirm_in_smoke": "a cap of 1 is accepted and can return a complete '0' or '1'. If it is rejected, the error is recorded and the segment stops; nothing is adapted automatically. Under a one-token cap a valid label may still arrive with stop_reason 'max_tokens', so the strict parser, not the stop reason, decides the label"
+    },
+    "usage_fields": {
+      "status": "documented",
+      "fields": {
+        "input_tokens": "uncached input only, after the last cache breakpoint",
+        "cache_creation_input_tokens": "cache writes, with a cache_creation breakdown by TTL",
+        "cache_read_input_tokens": "cache reads",
+        "output_tokens": "inclusive and authoritative for billing, thinking included",
+        "output_tokens_details.thinking_tokens": "thinking tokens, a read-only breakdown; recorded as null and 'not reported' when absent"
+      },
+      "cost_in_response": false,
+      "sources": [
+        "https://platform.claude.com/docs/en/api/messages/create",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"
+      ]
+    },
+    "thinking_blocks": {
+      "status": "recorded",
+      "handling": "content blocks of type thinking and redacted_thinking are counted on every response; any such block stops the segment under the stop_if_positive guard"
+    },
+    "returned_model_string": {
+      "status": "unverified",
+      "evidence": "Nothing read states whether the response reports 'claude-sonnet-5' or a dated snapshot name. The contract expects 'claude-sonnet-5' exactly; a different string stops the segment after the first call, which is recorded."
+    },
+    "prompt_caching": {
+      "status": "documented",
+      "evidence": "Caching applies to blocks marked with cache_control; this route sends none, so no cache read or write is expected."
+    }
+  },
+  "design_deviation": {
+    "id": "sonnet_temperature_not_sent",
+    "carlson": "The design asks for T=0. Sonnet 5 receives no temperature and decodes at its default. This deviates from the Carlson replication on this model and must be reported.",
+    "camuffo": "The design asks for T=1, which is the documented default; the parameter is still not sent.",
+    "recorded_as": "temperature_requested 0 or 1, temperature_parameter_sent null, temperature_control 'unavailable', sampling_parameters_policy 'omit'"
+  },
+  "tariff": {
+    "snapshot_id": "anthropic_claude-sonnet-5_2026-10-21",
+    "unit": "usd_per_million_tokens",
+    "input": 2.0,
+    "cache_write_5m": 2.5,
+    "cache_write_1h": 4.0,
+    "cache_read": 0.2,
+    "output": 10.0,
+    "retrieved_at": "2026-10-21",
+    "confirmed": "2026-10-21, by the researcher on the official pages; the values equal the snapshot.",
+    "sources": [
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "https://platform.claude.com/docs/en/models/sonnet-5/overview"
+    ],
+    "code": "python/src/chapter3/first_party.py, TARIFFS[snapshot_id]; the test suite checks the two agree"
+  },
+  "cost_estimate": {
+    "kind": "local_estimate_not_billing",
+    "formula": "input_tokens x input + cache_read_input_tokens x cache_read + cache writes by TTL (5m x cache_write_5m, 1h x cache_write_1h) + output_tokens x output",
+    "no_double_count": "thinking tokens are already inside output_tokens and are not added again",
+    "missing_ttl_breakdown": "every written token is priced at the dearer one-hour rate",
+    "use": "operational budget guard (--max-usd). Not the bill."
+  }
+}

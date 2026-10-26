@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "prompt_set_id": "carlson_table3_v1",
+  "arm": "carlson",
+  "approval_status": "approved",
+  "approval_basis": "visual_verification_of_table_3_by_researcher",
+  "approval_note": "The researcher rendered PDF page 13, printed page 711, and confirmed that the seven texts below correspond visually to Table 3. The extraction artefacts listed under transcription.normalised were confirmed as artefacts of the PDF text layer.",
+  "approved_date": "2026-09-22",
+  "approved_by": "researcher",
+  "counterbalancing": {
+    "applies": false,
+    "reason": "These seven prompts are canonical transcriptions of Table 3. Their internal order is part of the published text and is never altered. Label-order counterbalancing applies to the Camuffo arm only."
+  },
+  "max_output_tokens": 16,
+  "temperature_requested": 0,
+  "temperature_policy": "approach_faithful",
+  "max_output_tokens_note": "Kept at 16 for the Carlson arm. The published strategies instruct several reasoning steps before the final answer, so a one-token cap would not be a faithful replication even though the answer itself is one character.",
+  "representation_note": "This file stores a NORMALISED UNICODE TRANSCRIPTION of Table 3, not the original binary representation of the prompts used by the authors. Editorial line breaks were removed, words split by hyphenation or line wrapping were rejoined, and whitespace was collapsed. The authors' own prompt strings, as sent to their APIs, are not published and cannot be recovered byte for byte from the PDF.",
+  "source": {
+    "citation": "Carlson and Burbano (2026), Strategic Management Journal, 47(3), doi 10.1002/smj.70023",
+    "file": "docs/sources/carlson_burbano_2026.pdf",
+    "file_sha256": "a6e723d03d4a617fd8875f12eb9a1824ce9aa6e7edf3a48be1a97aca3b15d7ce",
+    "page_count": 27,
+    "table": "Table 3, Examples of different prompting strategies in practice",
+    "table_page": 13,
+    "introduced_on_page": 12,
+    "section": "3.3 Stage 3: Prompt engineering",
+    "extracted_with": "pypdf, page 13 text layer",
+    "extraction_date": "2026-09-22"
+  },
+  "transcription": {
+    "status": "visually_verified_normalised_unicode_transcription",
+    "verified_date": "2026-09-22",
+    "verified_by": "researcher",
+    "verification_method": "The researcher rendered PDF page 13, printed page 711, and compared it against the seven texts stored here.",
+    "is_original_binary_representation": false,
+    "preserved": [
+      "Curly double quotation marks in the Few-Shot examples, verified as U+201C and U+201D, three of each.",
+      "Straight apostrophe U+0027 in \"campaign's\", verified; the table contains no U+2019.",
+      "The Zero-shot closing differs from the other six and is preserved as it stands."
+    ],
+    "normalised": [
+      {
+        "change": "Removed the space before the final colon in \"Here is the text :\".",
+        "occurrences": 7,
+        "reason": "Consistent across all seven rows and not English typography; a glyph-positioning artefact of text extraction.",
+        "needs_researcher_confirmation": false,
+        "confirmed_as_artefact_by_researcher": true
+      },
+      {
+        "change": "Removed the space before the closing curly quote in the Few-Shot examples.",
+        "occurrences": 3,
+        "reason": "Same extraction artefact.",
+        "needs_researcher_confirmation": false,
+        "confirmed_as_artefact_by_researcher": true
+      },
+      {
+        "change": "Rejoined \"consumer-only\" in the Few-Shot row, split as \"consumer- only\" by line wrapping.",
+        "occurrences": 1,
+        "reason": "Editorial line break in the rendered table, not part of the prompt text.",
+        "needs_researcher_confirmation": false,
+        "confirmed_as_artefact_by_researcher": true
+      },
+      {
+        "change": "Rejoined \"environmental/social/economic\" in the Tree of Thought row, split as \"environmental/social/ economic\" by line wrapping.",
+        "occurrences": 1,
+        "reason": "Editorial line break in the rendered table, not part of the prompt text.",
+        "needs_researcher_confirmation": false,
+        "confirmed_as_artefact_by_researcher": true
+      },
+      {
+        "change": "Collapsed remaining runs of whitespace introduced by the table's column layout to single spaces.",
+        "reason": "Layout artefact of the PDF text layer.",
+        "needs_researcher_confirmation": false,
+        "confirmed_as_artefact_by_researcher": true
+      }
+    ],
+    "not_normalised": [
+      "The curly quotation marks of the Few-Shot examples are kept exactly as the source encodes them, U+201C and U+201D."
+    ],
+    "hash_basis": "prompt_sha256 is computed over the UTF-8 encoding of the stored JSON string, not over the PDF byte stream. The PDF does not store the text in the same binary representation, so the two hashes are not comparable."
+  },
+  "naming_note": {
+    "issue": "data/prompt_creation_template.txt defines the seventh strategy as 'rot: Reasoning with competing arguments'.",
+    "correction": "Table 3 names it 'Reflection on Search Trees (RoT)'. The local template naming is wrong and is recorded here without modifying the source file.",
+    "recorded_date": "2026-09-22"
+  },
+  "design": {
+    "strategies": 7,
+    "samples_per_cell": 1,
+    "aggregate_across_strategies": false,
+    "aggregate_note": "The seven strategies are alternative configurations and are analysed separately. Their outputs must never be pooled or voted across.",
+    "replication_status": "adapted_replication",
+    "adaptations": [
+      "Three models (GPT-5.6 Terra, Claude Sonnet 5, a DeepSeek model) instead of the five used in the paper: GPT-4, Claude 3 Opus, GPT-4o, Claude 3.5 Haiku, GPT-4o-mini.",
+      "The paper reports temperature = 0 for all models (page 12). OpenRouter endpoint metadata does not list temperature among the supported parameters for gpt-5.6-terra or claude-sonnet-5. This is recorded as a POTENTIAL deviation, pending verification against the first-party API contracts."
+    ]
+  },
+  "prompts": [
+    {
+      "template_id": "cb_t3_zero_shot",
+      "strategy_id": "zero_shot",
+      "strategy_name": "Zero-shot",
+      "canonical_status": "canonical_table3",
+      "table3_row": 1,
+      "text": "Please read the text of the following Kickstarter campaign and consider the following question. Does the main product or service offered benefit the broader society (beyond its consumers)? Answer only with a number: 1 for yes, 0 for no. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_few_shot",
+      "strategy_id": "few_shot",
+      "strategy_name": "Few-Shot",
+      "canonical_status": "canonical_table3",
+      "table3_row": 2,
+      "text": "Please read the text of the following Kickstarter campaign and consider whether the main product or service benefits the broader society (beyond its consumers). Examples: 1) “Solar-powered water purifier for communities” = 1 (benefits environment and public health), 2) “Premium leather accessories” = 0 (consumer-only benefit), 3) “Educational coding app for children” = 1 (benefits education and skill development). Using these examples as guidance, classify the following text with 1 for yes or 0 for no. Answer only with a number. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_role_based",
+      "strategy_id": "role_based",
+      "strategy_name": "Role-Based",
+      "canonical_status": "canonical_table3",
+      "table3_row": 3,
+      "text": "As an expert researcher in corporate social responsibility, evaluate whether the following Kickstarter campaign's main product or service benefits the broader society (beyond its consumers). Based on your expertise, classify the text with 1 for yes or 0 for no. Answer only with a number. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_cot",
+      "strategy_id": "cot",
+      "strategy_name": "Chain of Thought (CoT)",
+      "canonical_status": "canonical_table3",
+      "table3_row": 4,
+      "text": "Please read the following Kickstarter campaign and determine if the main product or service benefits the broader society (beyond its consumers). First identify the core offering, then list consumer benefits, examine societal impacts, and assess their significance. After this analysis, provide your classification: 1 for yes (clear broader societal benefits) or 0 for no (primarily consumer benefits). Answer only with a number. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_self_consistency",
+      "strategy_id": "self_consistency",
+      "strategy_name": "Self-Consistency",
+      "canonical_status": "canonical_table3",
+      "table3_row": 5,
+      "text": "Please evaluate this Kickstarter campaign three times to determine if the main product or service benefits the broader society (beyond its consumers). First consider immediate impacts, then long-term effects, and finally the scale of benefits. Provide a 1 or 0 classification for each evaluation, then give a final classification based on the majority outcome. Answer only with a number. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_tot",
+      "strategy_id": "tot",
+      "strategy_name": "Tree of Thought (ToT)",
+      "canonical_status": "canonical_table3",
+      "table3_row": 6,
+      "text": "Please evaluate whether this Kickstarter campaign's main product or service benefits the broader society (beyond its consumers) through three paths: 1) Impact scope (direct/indirect beneficiaries), 2) Sustainability framework (environmental/social/economic), 3) Public good criteria. Follow each path to its conclusion, then synthesize into a final 1 or 0 classification. Answer only with a number. Here is the text:"
+    },
+    {
+      "template_id": "cb_t3_rot",
+      "strategy_id": "rot",
+      "strategy_name": "Reflection on Search Trees (RoT)",
+      "canonical_status": "canonical_table3",
+      "table3_row": 7,
+      "text": "Please evaluate whether this Kickstarter campaign's main product or service benefits the broader society (beyond its consumers) through branching analysis paths. For each potential classification (1 or 0), generate two supporting arguments. Reflect on the strength of each argument, considering uncertainty and evidence quality. Rate confidence in each path (high/medium/low), then provide final 0 or 1 classification based on the strongest reasoning chain. Answer only with a number. Here is the text:"
+    }
+  ],
+  "excluded_sources": [
+    {
+      "source": "data/prompt_variations.csv",
+      "reason": "Template-generated derived variations, not the canonical Table 3 text. All seven first variants differ from Table 3; only the Zero-shot body matches, and every row's closing instruction was rewritten to 'Answer only with a number (0 or 1).' by data/prompt_creation_template.txt.",
+      "canonical_status": "derived_variation",
+      "coverage_note": "The paper reports a set of 100 unique prompts for the sensitivity analysis (page 18). The local CSV contains 50, so it is a subset, not the published set."
+    },
+    {
+      "source": "data/prompt_variations.csv, final rot row",
+      "reason": "Truncated. It ends '... then select final classification using strongest reasoning.' and lacks the mandatory closing instruction.",
+      "canonical_status": "corrupted",
+      "selectable": false
+    }
+  ],
+  "output_contract": "binary_exact",
+  "label_set_id": "societal_benefit_labels_v1",
+  "rubric_note": "The Carlson arm replicates the paper's prompts as published. It does NOT carry the societal_benefit_v1 rubric, which belongs to the Camuffo arm. The two arms are not interchangeable."
+}

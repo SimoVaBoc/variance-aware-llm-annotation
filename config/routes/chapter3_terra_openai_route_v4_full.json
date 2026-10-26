@@ -1,0 +1,86 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_terra_openai_route_v4_full.json",
+    "original_sha256": "3f6b713e78906d961a679a74cfab78539a92354d13d3da44802efd529dc9c85f",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.relationship",
+      "request_settings_on_the_wire.camuffo_cap_note",
+      "client.timeout_note",
+      "evidence"
+    ]
+  },
+  "route_id": "chapter3_terra_openai_route_v4_full",
+  "created_utc": "2026-10-21",
+  "scope": "GPT-5.6 Terra full collection: 4,000 calls on the 250 items, both arms.",
+  "supersedes": {
+    "files": [
+      "config/routes/chapter3_terra_openai_route_v1.json",
+      "config/routes/chapter3_terra_openai_route_v2.json",
+      "config/routes/chapter3_terra_openai_route_v3_pilot.json"
+    ]
+  },
+  "model": {
+    "model_id": "terra_5_6",
+    "api_route": "openai",
+    "api_model": "gpt-5.6-terra",
+    "interface": "Chat Completions, client.chat.completions.create",
+    "endpoint": "OpenAI SDK default base URL (first-party API)",
+    "credential_env_var": "OPENAI_API_KEY",
+    "gateway": null,
+    "expected_upstream_provider": null
+  },
+  "request_settings_on_the_wire": {
+    "carlson": {
+      "temperature": 0,
+      "max_completion_tokens": 16,
+      "reasoning_effort": "none",
+      "system_message": false
+    },
+    "camuffo": {
+      "temperature": 1,
+      "max_completion_tokens": 16,
+      "reasoning_effort": "none",
+      "system_message": true
+    },
+    "never_sent": [
+      "top_p",
+      "top_logprobs",
+      "stream",
+      "prompt_cache_retention",
+      "prompt_cache_key"
+    ]
+  },
+  "client": {
+    "sdk_retries": "max_retries=0 on the client; the runner makes one attempt per task",
+    "timeout_seconds": 120
+  },
+  "prompt_caching": {
+    "setting": "automatic, left on; nothing is sent to enable or disable it",
+    "recorded": "cached_input_tokens (reads) and cache_write_input_tokens (writes) on every record, priced in the local estimate",
+    "researcher_note_2026-10-21": "Prompt caching does not reuse responses and requires no change to the S replicates."
+  },
+  "tariff": {
+    "snapshot_id": "openai_gpt-5.6-terra_2026-10-21",
+    "unit": "usd_per_million_tokens",
+    "input": 2.0,
+    "cached_input": 0.2,
+    "cache_write": 2.5,
+    "output": 12.0,
+    "long_context_threshold_input_tokens": 272000,
+    "retrieved_at": "2026-10-21",
+    "confirmed": "2026-10-21, by the researcher on the official pages; the values equal the snapshot. No cache-retention parameter is sent, so the standard write rate applies.",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "https://developers.openai.com/api/docs/guides/prompt-caching"
+    ],
+    "code": "python/src/chapter3/first_party.py, TARIFFS[snapshot_id]; the test suite checks the two agree"
+  },
+  "cost_estimate": {
+    "kind": "local_estimate_not_billing",
+    "formula": "(prompt_tokens - cached_tokens - cache_write_tokens) x input + cached_tokens x cached_input + cache_write_tokens x cache_write + completion_tokens x output",
+    "no_double_count": "reasoning tokens are already inside completion_tokens and are not added again",
+    "forecast": "python/scripts/chapter3_terra_full_cost_estimate.py",
+    "use": "operational budget guard (--max-usd). Not the bill."
+  }
+}

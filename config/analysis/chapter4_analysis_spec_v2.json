@@ -1,0 +1,570 @@
+{
+  "spec_id": "chapter4_consolidated_analysis_spec",
+  "spec_version": "2.0.5",
+  "title": "Chapter 4 consolidated analysis specification (Revision 2 of 25 October 2026)",
+  "status_note": "Machine-readable form of the confirmed analysis plan. It records planning, not results. Confirmation is by the author (researcher); no supervisor approval is documented. Annotation generation predates this revision, so it is not a pre-generation registration.",
+  "decision_register": "config/analysis/chapter4_decision_register_v2.json",
+  "sources": [
+    {
+      "id": "SRC-BRIEF",
+      "title": "Implementation handoff for Claude Code and the coding chat",
+      "date": "2026-10-25",
+      "role": "operational mapping of the confirmed plan; authoritative for implementation scope"
+    },
+    {
+      "id": "SRC-CRITERIA",
+      "title": "Criteri_consolidati_e_specifica_statistica_2026-10-25",
+      "revision": "Revision 2",
+      "date": "2026-10-25",
+      "role": "framework rules"
+    },
+    {
+      "id": "SRC-MAP",
+      "title": "Chapter4_analysis_map_2026-10-25",
+      "revision": "Revision 2",
+      "date": "2026-10-25",
+      "role": "chapter architecture and Firth-only scope"
+    },
+    {
+      "id": "SRC-H2",
+      "title": "H2_analisi_decisioni_e_conclusioni_2026-10-25",
+      "date": "2026-10-25",
+      "role": "H2 sheet (consolidated 2026-10-25; it states that the core was agreed on 2026-10-17 and revised on 2026-10-18)"
+    },
+    {
+      "id": "SRC-H3",
+      "title": "H3_analisi_conclusioni_2026-10-25",
+      "date": "2026-10-25",
+      "role": "H3 sheet"
+    }
+  ],
+  "design": {
+    "benchmark": {
+      "planned_n_items": 250,
+      "planned_human_positives": 32,
+      "planned_human_negatives": 218,
+      "item_id_prefix": "CB",
+      "note": "Constants of the planned real benchmark. Synthetic fixtures may be smaller and are always marked synthetic. Observed counts are never used as validity conditions."
+    },
+    "models": [
+      {
+        "model_key": "terra_5_6"
+      },
+      {
+        "model_key": "sonnet_5"
+      },
+      {
+        "model_key": "deepseek_v4_pro"
+      }
+    ],
+    "cb_templates": [
+      {
+        "template_id": "cb_t3_zero_shot",
+        "strategy_id": "zero_shot"
+      },
+      {
+        "template_id": "cb_t3_few_shot",
+        "strategy_id": "few_shot"
+      },
+      {
+        "template_id": "cb_t3_role_based",
+        "strategy_id": "role_based"
+      },
+      {
+        "template_id": "cb_t3_cot",
+        "strategy_id": "cot"
+      },
+      {
+        "template_id": "cb_t3_self_consistency",
+        "strategy_id": "self_consistency"
+      },
+      {
+        "template_id": "cb_t3_tot",
+        "strategy_id": "tot"
+      },
+      {
+        "template_id": "cb_t3_rot",
+        "strategy_id": "rot"
+      }
+    ],
+    "va_templates": [
+      {
+        "template_id": "cm_base",
+        "variant_id": "base"
+      },
+      {
+        "template_id": "cm_paraphrase_1",
+        "variant_id": "paraphrase_1"
+      },
+      {
+        "template_id": "cm_paraphrase_2",
+        "variant_id": "paraphrase_2"
+      }
+    ],
+    "cb_generations_per_configuration": 1,
+    "va_generations_per_cell": 3,
+    "label_orders": [
+      "10",
+      "01"
+    ],
+    "design_sources": [
+      "config/experiments/chapter3_comparative_experiment_v1.json#models",
+      "config/prompts/carlson_table3_v1.json#prompts",
+      "config/prompts/camuffo_societal_benefit_P3_v1.json#variants"
+    ],
+    "collection_binding": "Model keys are the planned design identifiers. Which collection log supplies each model key is declared in a local input binding outside version control and must be confirmed before any empirical run (see D-IO-02)."
+  },
+  "procedures": {
+    "id_scheme": {
+      "cb": "cb::{model_key}::{template_id}",
+      "va_post_s": "va_s::{model_key}::{template_id}",
+      "g": "va_g::s_p_m",
+      "va_component": "va_c::{model_key}::{template_id}::s{sample_index}",
+      "va_post_sp": "va_sp::{model_key}"
+    },
+    "primary_counts": {
+      "cb": 21,
+      "va_post_s": 9,
+      "g": 1,
+      "total": 31
+    },
+    "h3_component_count": 27,
+    "h4_within_model_count": 3,
+    "deduplicate_coincident_vectors": false,
+    "comparator_tie_identity": "Among comparators with exactly equal BA, the comparator reported is the one with the smallest procedure_id in ascending lexicographic order. This names the comparator only; the margin is identical."
+  },
+  "aggregation": {
+    "primary_rule_id": "primary_complete_hierarchical_majority_v2",
+    "hierarchy": [
+      "S",
+      "P",
+      "M"
+    ],
+    "va_post_s_required_valid_generations": 3,
+    "g_required_valid_calls": 27,
+    "validate_expected_task_identities": true,
+    "pooled_majority_as_primary": false,
+    "legacy_rule_id": "legacy_two_valid_concordant_v1",
+    "legacy_rule_use": "Named separately for provenance only. Never a fallback of the primary path.",
+    "g_outside_i27": "missing; zero correctness credit on B; never recoded as label 0"
+  },
+  "samples": {
+    "B": {
+      "definition": "The fixed benchmark of all planned campaigns with their HUMAN class.",
+      "use": "Primary annotation scores, margins and framework comparisons.",
+      "empirical_membership": "For the empirical run B is the planned list of campaigns, not rebuilt from the data. A non-binary HUMAN label, a missing or extra campaign, or class sizes other than the planned 250/32/218 appear in a visible planned-versus-actual check in the output; they are never a silent exclusion or a hard-coded validity gate.",
+      "planned_check": "planned_benchmark_check (samples.py); always part of the framework output"
+    },
+    "I27": {
+      "definition": "Campaigns of B whose 27 planned VA calls all produced valid binary labels.",
+      "use": "G eligibility and the H3 comparison."
+    },
+    "R": {
+      "definition": "Campaigns with valid HUMAN, valid success, all covariates valid and all 31 primary labels valid.",
+      "use": "All downstream fits.",
+      "fixed_once_before_fits": true
+    },
+    "H1_triplets": {
+      "definition": "Complete binary triplets, separately for each model-prompt cell.",
+      "incomplete_triplets": "reported separately",
+      "universe": "all benchmark items; HUMAN is not used"
+    },
+    "H2_I_m": {
+      "definition": "Model-specific campaigns whose manifest-selected equal-order prompt pair has six valid responses.",
+      "substitutes_forbidden": [
+        "I27",
+        "R"
+      ],
+      "universe": "all benchmark items; HUMAN is not used and enters only the reported class composition",
+      "pattern_violation": "integrity error; no other pair is substituted"
+    },
+    "membership_outputs": "Membership and every exclusion reason are first-class outputs with class counts. Overlapping reasons are reported without implying disjoint counts.",
+    "performance_based_selection": false
+  },
+  "scores": {
+    "class_score_name": "class-specific correctness score with zero credit for missing outputs",
+    "balanced_score_name": "balanced correctness score",
+    "definition": "A_c(j) = valid correct labels of j in class c / all campaigns of B in class c; BA(j) = (A_+(j) + A_-(j)) / 2.",
+    "missing_label": "stays missing; earns zero credit; never counted as a false positive or false negative",
+    "report": [
+      "valid_correct",
+      "valid_incorrect",
+      "missing",
+      "coverage"
+    ],
+    "thresholds": {
+      "a_plus_min": "0.75",
+      "a_minus_min": "0.925",
+      "ba_margin_min": "0.03",
+      "coefficient_distance_max": "0.41",
+      "comparison": "inclusive (>= for minima, <= for maxima), applied to unrounded values with exact rational arithmetic",
+      "float_values": "Floating-point values (regression coefficients) are compared at the exact value of the double; see D-SCORE-03 (proposed)."
+    },
+    "planned_min_correct": {
+      "positives": 24,
+      "negatives": 202
+    },
+    "shared_error_sufficiency": {
+      "positives": 9,
+      "negatives": 17
+    }
+  },
+  "comparisons": {
+    "g_margins": [
+      "g_minus_best_cb",
+      "g_minus_best_va_post_s",
+      "g_minus_best_all_30"
+    ],
+    "g_margin_identity": "g_minus_best_all_30 equals the minimum of the other two",
+    "comparator_search_filters_adequacy": false,
+    "standalone_comparator_set": "every other primary procedure, including G",
+    "selection_caveat": "An observed best comparator is an in-sample benchmark; selection-conditional intervals are not an independent validation of the winner."
+  },
+  "kappa": {
+    "role": "complementary: RQ1 pairwise agreement and RQ2 agreement with HUMAN",
+    "support": "explicitly declared valid paired support",
+    "undefined": "NA, never 1",
+    "adoption_threshold": null
+  },
+  "framework_bootstrap": {
+    "n_resamples": 10000,
+    "sample": "B",
+    "unit": "campaign, with all outputs and missingness attached",
+    "stratified_by": "HUMAN",
+    "draws_per_replication": "planned class sizes of B (positives, negatives)",
+    "generator": "numpy.random.Generator(numpy.random.PCG64(seed))",
+    "seed": 20261024,
+    "campaign_order": "ascending lexicographic item_id within each class",
+    "draw_order": [
+      "positives",
+      "negatives"
+    ],
+    "interval": {
+      "type": "two-sided percentile",
+      "quantiles": [
+        "0.025",
+        "0.975"
+      ],
+      "interpolation": "linear"
+    },
+    "statistics": [
+      "A_plus",
+      "A_minus",
+      "BA",
+      "coverage",
+      "declared paired margins"
+    ],
+    "comparator_fixed_from_original_sample": true,
+    "decisions_use_point_estimates": true,
+    "kappa_interval_requires_all_replicates_defined": true,
+    "saved_with_results": [
+      "resample indices or weights",
+      "their sha256",
+      "sample ids",
+      "generator",
+      "seed",
+      "software versions"
+    ],
+    "applies_to": [
+      "framework annotation uncertainty"
+    ],
+    "not_applied_to": [
+      "H2",
+      "H3 inference conflict"
+    ],
+    "third_g_margin": {
+      "decision_id": "D-BOOT-03",
+      "status": "proposed",
+      "treatment": "With the original comparators fixed, the third margin uses the fixed best-of-30 identity in every replicate. It equals the minimum of the other two margins at the point estimate, not necessarily in each replicate."
+    },
+    "interval_publication": "An interval is published only if every replicate is defined; otherwise the defined share is reported and the interval is unavailable. Applied to every statistic; under the stratified design A+, A-, BA, coverage and the margins are always defined."
+  },
+  "robustness": {
+    "g_omissions": {
+      "perturbations": [
+        "omit each prompt globally",
+        "omit each model globally"
+      ],
+      "n_perturbations": 6,
+      "calls_per_reduced_panel": 18,
+      "fixed": [
+        "B",
+        "original I27",
+        "original best-of-30 comparator"
+      ],
+      "recover_campaigns_complete_only_after_omission": false,
+      "prompt_omission_rule": "two concordant post-S votes within a model determine its label; disagreement yields {0,1}; all combinations propagate through the majority over three models; a final label is determined only if every combination yields it, otherwise a final tie",
+      "model_omission_rule": "discordant remaining model votes yield a final tie",
+      "credit": {
+        "determined_correct": "1",
+        "determined_incorrect": "0",
+        "final_tie": "0.5",
+        "outside_original_i27": "0"
+      },
+      "tie_credit_scope": "robustness score only; never a regression input",
+      "requirement": "margin >= 0.03 in all six; report the minimum"
+    },
+    "standalone_leave_one_out": {
+      "n_omissions": "one per campaign of B",
+      "candidate": "fixed from the full benchmark",
+      "alternative": "strongest of the other 30 primary procedures, recomputed with residual class denominators",
+      "requirement": "margin >= 0.03 in every omission; report the minimum",
+      "candidate_identification": {
+        "decision_id": "D-ROB-03",
+        "status": "proposed"
+      }
+    },
+    "shared_stability_scale": false,
+    "bootstrap_substitute": false
+  },
+  "framework": {
+    "non_correspondence": "Class-balanced mean of class-specific rates of 'not both valid and equal'. Two missing labels are non-correspondence. Valid-label disagreement and missingness contributions are reported separately.",
+    "practical_similarity": "Entire group of primary procedures meeting annotation adequacy and evaluable HUMAN proximity; at least two members; every pair needs non-correspondence < 0.03 and coefficient distance <= 0.41. No post hoc subgroup.",
+    "unresolved_differences": "All 465 pairs of the 31 procedures; non-correspondence >= 0.03 or evaluable coefficient distance > 0.41 is a difference beyond the similarity criterion; a failed fit is not a substantive difference.",
+    "shared_error_groups": {
+      "S_CB": 21,
+      "S_VA": 9,
+      "S_ALL": 30,
+      "G_included": false
+    },
+    "shared_error_counts": [
+      "J",
+      "E",
+      "U",
+      "E/N_c",
+      "U/N_c",
+      "E/J when J > 0",
+      "U - E"
+    ],
+    "directional_corrections": "All 36 VA post-S pairs; both valid, one correct and one wrong; weighted on the BA scale with B class denominators; any positive amount, reciprocity, both >= 0.03 are descriptive only.",
+    "status_values": [
+      "satisfied",
+      "not_satisfied",
+      "not_evaluable"
+    ],
+    "conclusion_fields": [
+      "value",
+      "rule",
+      "sample",
+      "comparator",
+      "status",
+      "reason"
+    ],
+    "overall_adequacy": "A known failure establishes not_satisfied even if another condition is unavailable. Adequate annotations with unavailable downstream evidence are not_evaluable. 'None adequate' only if every procedure is a known failure; otherwise the overall status remains unresolved.",
+    "evidence_table_composition": {
+      "decision_id": "D-FW-04",
+      "status": "proposed"
+    }
+  },
+  "downstream": {
+    "formula": "success ~ LABEL + lgoal + C(subcategory) + C(year)",
+    "intercept": true,
+    "sample": "R",
+    "lgoal": "supplied field, used as is",
+    "factor_levels": "levels observed on R, sorted as strings; first level is the reference; one control matrix reused for every fit",
+    "row_removal_by_formula_library": false,
+    "fits": {
+      "primary_procedures": 31,
+      "human": 1,
+      "h4_within_model": 3,
+      "total": 35
+    },
+    "human_reestimated_on_R": true,
+    "estimator": {
+      "implementation": "R package logistf",
+      "required_version": "1.26.1",
+      "penalty": "standard Firth penalty 0.5 * log|I(beta)|",
+      "flic": false,
+      "flac": false,
+      "fallback": null,
+      "control": {
+        "initialisation": "zero",
+        "method": "Newton-Raphson",
+        "maxit": 1000,
+        "maxhs": 25,
+        "maxstep": 5,
+        "lconv": "1e-6",
+        "gconv": "1e-6",
+        "xconv": "1e-6",
+        "collapse": false
+      },
+      "profile_interval": {
+        "level": "0.95",
+        "maxit": 1000,
+        "maxhs": 25,
+        "maxstep": 5,
+        "lconv": "1e-6",
+        "xconv": "1e-6",
+        "ortho": false,
+        "pr": false
+      }
+    },
+    "pre_fit_checks": [
+      "both success classes present",
+      "LABEL varies",
+      "N > p",
+      "full rank"
+    ],
+    "rank_tolerance": "max(N, p) * machine_epsilon * largest_singular_value (double precision SVD)",
+    "separation_diagnostic": "complete/quasi-complete separation via linear programming; recorded, not an automatic Firth failure",
+    "usable_fit": [
+      "certified convergence of lconv, gconv and xconv",
+      "finite coefficients and covariance",
+      "positive LABEL variance"
+    ],
+    "usable_interval": "both profile endpoints converged and finite",
+    "failure_propagation": "HUMAN failure makes every distance unavailable; a procedure failure affects only its own distance. A point estimate without a usable interval is descriptive only and cannot pass downstream adequacy.",
+    "proximity": "abs(beta_j_Firth - beta_HUMAN_Firth) <= 0.41; an application tolerance, not an equivalence test or bias bound",
+    "mle": "historical replication only; no new MLE run; never mixed with Firth",
+    "adapter": {
+      "r_script": "python/src/chapter3/chapter4_v2/r/firth_adapter.R",
+      "python_side": "design, pre-fit checks, SVD rank and separation LP only; no estimator in Python",
+      "exchange": "every double as a hexadecimal string in both directions (bit-exact)",
+      "rscript_resolution": "environment variable CHAPTER4_V2_RSCRIPT, then local untracked local_paths.json, then PATH",
+      "design_check": "the model matrix built in R must be identical to the design sent; na.action = na.fail",
+      "provenance": "every run records R version, platform, the R version logistf was built under, installed versions of logistf's recursive dependencies and the loaded package versions"
+    },
+    "separation_lp": {
+      "decision_id": "D-FIRTH-04",
+      "status": "proposed"
+    },
+    "usability_details": {
+      "decision_id": "D-FIRTH-05",
+      "status": "proposed"
+    },
+    "known_blocker": {
+      "decision_id": "D-FIRTH-03",
+      "status": "unresolved",
+      "summary": "With the fit control maxhs = 25, logistf 1.26.1 certified convergence on none of the invented designs tried (60 generic and 40 closer to the real analysis); with fit maxhs = 0 it certified all. Plain logistf and the adapter give bit-identical fits. The profile-control maxhs has no effect on the LABEL limits. In strongly aligned designs with tiny subcategories, at least two certified stationary points exist and the one reached depends on the path. The controls are not changed here; see D-FIRTH-03."
+    }
+  },
+  "modules": {
+    "h1": {
+      "methodological_status": "confirmed",
+      "enabled": true,
+      "summary": "Per model-prompt cell: proportion of complete binary triplets that are not unanimous. Mean pairwise disagreement equals two thirds of it on the same support (identity, not an independent finding). Incomplete support reported separately. No CB comparator."
+    },
+    "h2_core": {
+      "methodological_status": "confirmed",
+      "enabled": true,
+      "summary": "Manifest-selected equal-order prompt pair per campaign and model; I_m requires six valid responses; Q_i = (2*S_A - T)^2 / 6; exact conditional upper tail including equality; Holm over the three planned model tests at familywise 0.05; within- and between-prompt disagreement rates.",
+      "null_law_of_Q_by_T": {
+        "0|6": {
+          "0": "1"
+        },
+        "1|5": {
+          "1/6": "1"
+        },
+        "2|4": {
+          "0": "3/5",
+          "2/3": "2/5"
+        },
+        "3": {
+          "1/6": "9/10",
+          "3/2": "1/10"
+        }
+      },
+      "mid_p": false,
+      "monte_carlo": false,
+      "holm_family_size": 3,
+      "familywise_alpha": "0.05",
+      "between_minus_within_contrast": false,
+      "edge_cases": {
+        "N_equals_0": "not evaluable",
+        "no_strata_with_T_2_to_4": "p = 1 with flag 'uninformative conditional Q'",
+        "model_unavailable": "family is not shrunk; reported as incomplete (see D-H2-04)"
+      }
+    },
+    "h2_temporal_sensitivity": {
+      "methodological_status": "decision_pending",
+      "enabled": false,
+      "decision_ids": [
+        "D-H2-02"
+      ]
+    },
+    "h2_ancillary_bootstrap_and_temporal_holm": {
+      "methodological_status": "decision_pending",
+      "enabled": false,
+      "decision_ids": [
+        "D-H2-03"
+      ]
+    },
+    "h2_incomplete_family_policy": {
+      "methodological_status": "decision_pending",
+      "enabled": false,
+      "decision_ids": [
+        "D-H2-04"
+      ]
+    },
+    "h2_ps_anova": {
+      "methodological_status": "outside_primary_plan",
+      "enabled": false,
+      "decision_ids": [
+        "D-H2-05"
+      ]
+    },
+    "h3_point_contrast": {
+      "methodological_status": "confirmed",
+      "enabled": true,
+      "summary": "Delta_BA = BA(G) - mean over the 27 component vectors of BA, on I27 with its actual class denominators; not evaluable if either class is absent; no 0.03 margin."
+    },
+    "h3_inference": {
+      "methodological_status": "decision_pending",
+      "enabled": false,
+      "decision_ids": [
+        "D-H3-02"
+      ]
+    },
+    "h3_complementary_available_samples": {
+      "methodological_status": "outside_primary_plan",
+      "enabled": false,
+      "decision_ids": [
+        "D-H3-03"
+      ]
+    },
+    "h4": {
+      "methodological_status": "confirmed",
+      "enabled": true,
+      "summary": "D_pre = mean over prompts of the between-model SD (denominator 3) of nine post-S coefficients; D_post = SD (denominator 3) of three post-S->P coefficients; Delta_D = D_pre - D_post; percent only when D_pre > 0; ranges and three separate outcomes; all 12 fits usable."
+    },
+    "e1": {
+      "methodological_status": "confirmed",
+      "enabled": true,
+      "summary": "BA(R) against absolute Firth distance from HUMAN(R) for the 31 primary procedures; overlapping identities retained; unavailable distances listed; no Spearman, p-value or extra regression."
+    }
+  },
+  "reporting": {
+    "pending_modules": "visibly marked; a missing result is never rendered as zero, a failed hypothesis or a passed criterion",
+    "missing_cost": "NA, not zero",
+    "outputs_carry": [
+      "spec_id",
+      "spec_version",
+      "spec_sha256",
+      "code_commit",
+      "dependency versions"
+    ],
+    "labels": "Outputs are keyed to analysis IDs (A1-A6, B1-B4, H1-H4, E1), never to chapter or section numbers.",
+    "output_tiers": {
+      "values": [
+        "main",
+        "appendix"
+      ],
+      "rule": "SRC-BRIEF §10: coverage, essential performance profiles, the three G margins, downstream coefficients and diagnostics, concise H1-H4/E1 and the evidence-to-framework table in the main report; all 465 pairs, extended matrices, full coefficients and technical details in appendices. Where §10 is silent the tier is marked proposed.",
+      "catalogue": "python/src/chapter3/chapter4_v2/reporting.py (CATALOGUE)"
+    },
+    "pending_status_table": "Always part of the report: H3 inference (D-H3-02), H2 extensions (D-H2-02, D-H2-03, D-H2-05), the incomplete Holm family policy (D-H2-04) and the Firth convergence blocker (D-FIRTH-03), each with its status and what is shown instead.",
+    "chapter_structure": {
+      "decision_id": "D-CH4-STRUCT",
+      "status": "proposed"
+    }
+  },
+  "open_decision_ids": [
+    "D-H3-02",
+    "D-H2-02",
+    "D-H2-03",
+    "D-H2-04",
+    "D-CHRON-01",
+    "D-IO-02",
+    "D-FIRTH-03"
+  ]
+}

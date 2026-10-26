@@ -1,0 +1,97 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_terra_openai_route_v2.json",
+    "original_sha256": "a2053d0d2cd40986650a28d15feb95d445e537735ec2f5d5efc7b60d4431425d",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.relationship",
+      "request_settings_on_the_wire.carlson",
+      "observed_in_smoke_v1",
+      "documented_capabilities.reasoning_effort_none.status",
+      "documented_capabilities.temperature_with_reasoning_none.status",
+      "documented_capabilities.max_completion_tokens.status",
+      "documented_capabilities.usage_fields.status",
+      "documented_capabilities.returned_model_string.status",
+      "documented_capabilities.returned_model_string.evidence"
+    ]
+  },
+  "route_id": "chapter3_terra_openai_route_v2",
+  "created_utc": "2026-10-21",
+  "scope": "second first-party smoke for GPT-5.6 Terra: the nine Camuffo calls on item CB221, output cap 16. Carlson, pilot and full are not covered.",
+  "supersedes": {
+    "file": "config/routes/chapter3_terra_openai_route_v1.json"
+  },
+  "model": {
+    "model_id": "terra_5_6",
+    "api_route": "openai",
+    "api_model": "gpt-5.6-terra",
+    "interface": "Chat Completions, client.chat.completions.create",
+    "endpoint": "OpenAI SDK default base URL (first-party API)",
+    "credential_env_var": "OPENAI_API_KEY",
+    "gateway": null,
+    "expected_upstream_provider": null
+  },
+  "request_settings_on_the_wire": {
+    "camuffo": {
+      "temperature": 1,
+      "max_completion_tokens": 16,
+      "reasoning_effort": "none",
+      "system_message": true
+    },
+    "never_sent": [
+      "top_p",
+      "top_logprobs",
+      "stream"
+    ],
+    "sdk_retries": "max_retries=0 on the client; the runner makes one attempt per task"
+  },
+  "documented_capabilities": {
+    "reasoning_effort_none": {
+      "sources": [
+        "https://developers.openai.com/api/docs/models/gpt-5.6-terra"
+      ]
+    },
+    "temperature_with_reasoning_none": {
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/latest-model"
+      ],
+      "to_confirm_in_smoke": "temperature 1 is accepted alongside reasoning_effort 'none' in a successful response"
+    },
+    "max_completion_tokens": {
+      "sources": [
+        "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create"
+      ],
+      "to_confirm_in_smoke": "a cap of 16 is accepted; the output is exactly '0' or '1'; finish_reason is 'stop' (generation ended on its own) rather than 'length'"
+    },
+    "usage_fields": {
+      "cost_in_response": false,
+      "sources": [
+        "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
+      ]
+    },
+    "returned_model_string": {}
+  },
+  "tariff": {
+    "snapshot_id": "openai_gpt-5.6-terra_2026-10-21",
+    "unit": "usd_per_million_tokens",
+    "input": 2.0,
+    "cached_input": 0.2,
+    "cache_write": 2.5,
+    "output": 12.0,
+    "long_context_threshold_input_tokens": 272000,
+    "retrieved_at": "2026-10-21",
+    "confirmed": "2026-10-21, by the researcher on the official pages; the values equal the snapshot. The requests set no cache-retention parameter, so the standard write rate applies.",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "https://developers.openai.com/api/docs/guides/prompt-caching"
+    ],
+    "code": "python/src/chapter3/first_party.py, TARIFFS[snapshot_id]; the test suite checks the two agree"
+  },
+  "cost_estimate": {
+    "kind": "local_estimate_not_billing",
+    "formula": "(prompt_tokens - cached_tokens - cache_write_tokens) x input + cached_tokens x cached_input + cache_write_tokens x cache_write + completion_tokens x output",
+    "no_double_count": "reasoning tokens are already inside completion_tokens and are not added again",
+    "use": "operational budget guard (--max-usd). Not the bill."
+  }
+}

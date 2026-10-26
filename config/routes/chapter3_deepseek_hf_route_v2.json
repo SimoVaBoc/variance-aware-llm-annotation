@@ -1,0 +1,80 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_deepseek_hf_route_v2.json",
+    "original_sha256": "8a797b2b7f5f46da479f98b679e81ecd0cdedcc3488156d816bcb200e90afd8a",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.note",
+      "what_changed_from_v1.[0]",
+      "what_changed_from_v1.[2]",
+      "status",
+      "probe_evidence",
+      "tariff_snapshot.cached_input_observed",
+      "tariff_snapshot.cached_input_note"
+    ],
+    "hashes_note": "Hashes recorded in this file refer to the original files, which are not distributed; they do not match the derived copies."
+  },
+  "route_id": "chapter3_deepseek_hf_route_v2",
+  "created_utc": "2026-09-30",
+  "supersedes": {
+    "route_id": "chapter3_deepseek_hf_route_v1",
+    "file": "config/routes/chapter3_deepseek_hf_route_v1.json",
+    "file_sha256": "19b43fdcc639db3630d479c7b11242b671a7672b22ba06ea5dcc3f082d9a820e"
+  },
+  "what_changed_from_v1": [
+    "huggingface_reasoning_control is no longer null: the pilot sends no reasoning parameter, as an explicit decision rather than an unfilled field."
+  ],
+  "gateway": {
+    "name": "huggingface_router",
+    "base_url": "https://router.huggingface.co/v1",
+    "credential_env_var": "HF_TOKEN",
+    "credential_note": "HF_TOKEN only. OPENROUTER_API_KEY is never accepted on this route."
+  },
+  "model_entry": {
+    "id": "deepseek_v4_pro_hf_deepinfra",
+    "provider": "deepseek",
+    "api_route": "huggingface",
+    "api_model": "deepseek-ai/DeepSeek-V4-Pro-0813:deepinfra",
+    "selection_status": "confirmed_by_user",
+    "selection_status_scope": "pilot_only",
+    "selection_status_note": "Confirmed so the 192-call pilot can run. This is not approval for the full scope; see status.route_selection. The experiment definition that carries this entry declares no full scope at all, so a full manifest cannot be generated from it.",
+    "request_settings": {
+      "huggingface_provider": "deepinfra",
+      "huggingface_allow_fallbacks": false,
+      "huggingface_reasoning_control": "omitted_and_recorded_as_unverified",
+      "temperature_requested": null,
+      "temperature_control": "unverified",
+      "temperature_verification_source": null
+    }
+  },
+  "recorded_per_call": {
+    "gateway": "constant for the route",
+    "requested_model": "the Hub repository asked for",
+    "requested_provider": "the provider pinned in the model id",
+    "api_model_returned": "what the response said the model was",
+    "upstream_provider": "read from the body if present, otherwise from the header",
+    "upstream_provider_source": "response_body:provider or response_header:x-inference-provider, never inferred",
+    "cost": "usage.estimated_cost, the provider's own figure",
+    "cost_reported": "true when the provider stated one",
+    "cost_source": "provider_usage_estimated_cost",
+    "cost_is_provider_estimate": "true on this route; OpenRouter's credited cost sets it false",
+    "cost_estimated": "computed locally from the tariff snapshot, kept beside the provider figure so the two can be compared",
+    "cached_input_tokens": "usage.prompt_tokens_details.cached_tokens; null means not reported, never zero"
+  },
+  "tariff_snapshot": {
+    "id": "hf_router_v1_models_2026-09-30",
+    "source": "GET https://router.huggingface.co/v1/models",
+    "retrieved_at": "2026-09-30",
+    "unit": "usd_per_million_tokens",
+    "deepinfra": {
+      "input": 1.3,
+      "output": 2.6
+    }
+  },
+  "relationship_to_the_openrouter_route": {
+    "results_may_be_pooled": false,
+    "reason": "Baidu does not serve this model on Hugging Face, so the two routes cannot reach the same backend. A shared payload digest makes the two comparable, never interchangeable.",
+    "openrouter_artefacts_unchanged": true,
+    "comparison_that_is_permitted": "Descriptive, payload-matched, reported side by side and never merged."
+  }
+}

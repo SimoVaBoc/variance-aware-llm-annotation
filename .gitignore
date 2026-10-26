@@ -1,0 +1,23 @@
+# Environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Local configuration (never commit)
+local_paths*.json
+.env
+.env*
+
+# Private material never belongs in this repository. Under data/ only the three
+# starting inputs are tracked (decision D-EXPORT-03); nothing else is.
+data/*
+!data/test_sample.csv
+!data/prompt_variations.csv
+!data/prompt_creation_template.txt
+runs/
+Codice_tesi_private/
+
+# Outputs of the synthetic example, when written inside the tree
+*_synthetic_report.json
+README_SYNTHETIC.md

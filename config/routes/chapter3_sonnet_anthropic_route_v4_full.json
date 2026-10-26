@@ -1,0 +1,97 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_sonnet_anthropic_route_v4_full.json",
+    "original_sha256": "1e7190a61010389998dc38245d55c477696003f8a1138311561bb0c4a5ae024f",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "supersedes.relationship",
+      "client.rate_limits",
+      "evidence"
+    ]
+  },
+  "route_id": "chapter3_sonnet_anthropic_route_v4_full",
+  "created_utc": "2026-10-21",
+  "scope": "Claude Sonnet 5 full collection: 4,000 calls on the 250 items, both arms.",
+  "supersedes": {
+    "files": [
+      "config/routes/chapter3_sonnet_anthropic_route_v1.json",
+      "config/routes/chapter3_sonnet_anthropic_route_v2.json",
+      "config/routes/chapter3_sonnet_anthropic_route_v3_pilot.json"
+    ]
+  },
+  "model": {
+    "model_id": "sonnet_5",
+    "api_route": "anthropic",
+    "api_model": "claude-sonnet-5",
+    "interface": "Messages, client.messages.create",
+    "endpoint": "Anthropic SDK default base URL (first-party API)",
+    "credential_env_var": "ANTHROPIC_API_KEY",
+    "gateway": null,
+    "expected_upstream_provider": null,
+    "lifecycle": "Active, with retirement declared not before 30 June 2027 (confirmed by the researcher on 2026-10-21)."
+  },
+  "request_settings_on_the_wire": {
+    "carlson": {
+      "max_tokens": 16,
+      "thinking": {
+        "type": "disabled"
+      },
+      "system": false,
+      "temperature": "not sent"
+    },
+    "camuffo": {
+      "max_tokens": 1,
+      "thinking": {
+        "type": "disabled"
+      },
+      "system": true,
+      "temperature": "not sent"
+    },
+    "never_sent": [
+      "temperature",
+      "top_p",
+      "top_k",
+      "stream",
+      "output_format",
+      "tools",
+      "stop_sequences"
+    ],
+    "messages": "one user message per request, plus the system field on the Camuffo arm, exactly as assembled from the catalogue for the manifest row and its label order. Each request is independent. The three S repeats of a cell carry byte-identical messages and parameters."
+  },
+  "client": {
+    "sdk_retries": "max_retries=0 on the client; the runner makes one attempt per task",
+    "timeout_seconds": 120,
+    "timeout_note": "python/scripts/chapter3_execute.py, SDK_TIMEOUT_SECONDS, for connect, read, write and pool. A timeout is an API error without HTTP status: it stops the segment and is never retried."
+  },
+  "design_deviation": {
+    "id": "sonnet_temperature_not_sent",
+    "carlson": "The design asks for T=0. Sonnet 5 receives no temperature and decodes at its default. This deviates from the Carlson replication on this model and must be reported.",
+    "camuffo": "The design asks for T=1, which is the documented default; the parameter is still not sent.",
+    "recorded_as": "temperature_requested 0 or 1, temperature_parameter_sent null, temperature_control 'unavailable', sampling_parameters_policy 'omit'. The omitted parameter is not a verified control of temperature."
+  },
+  "parse_errors": "terminal missing values: the raw output is kept verbatim, the slot is consumed, and nothing is retried or reinterpreted",
+  "tariff": {
+    "snapshot_id": "anthropic_claude-sonnet-5_2026-10-21",
+    "unit": "usd_per_million_tokens",
+    "input": 2.0,
+    "cache_write_5m": 2.5,
+    "cache_write_1h": 4.0,
+    "cache_read": 0.2,
+    "output": 10.0,
+    "retrieved_at": "2026-10-21",
+    "confirmed": "2026-10-21, by the researcher on the official pages; the values equal the snapshot.",
+    "sources": [
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "https://platform.claude.com/docs/en/models/sonnet-5/overview"
+    ],
+    "code": "python/src/chapter3/first_party.py, TARIFFS[snapshot_id]; the test suite checks the two agree"
+  },
+  "cost_estimate": {
+    "kind": "local_estimate_not_billing",
+    "formula": "input_tokens x input + cache_read_input_tokens x cache_read + cache writes by TTL (5m x cache_write_5m, 1h x cache_write_1h) + output_tokens x output",
+    "no_double_count": "thinking tokens are already inside output_tokens and are not added again",
+    "forecast": "python/scripts/chapter3_sonnet_full_cost_estimate.py; no cache savings assumed",
+    "use": "operational budget guard (--max-usd). Not the bill."
+  }
+}

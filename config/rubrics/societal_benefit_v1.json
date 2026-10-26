@@ -1,0 +1,146 @@
+{
+  "schema_version": "2.0",
+  "rubric_id": "societal_benefit_v1",
+  "construct": "broader societal benefit of the main product or service",
+  "status": "approved",
+  "approval_state": {
+    "substantive_decisions": "researcher_approved",
+    "substantive_decisions_date": "2026-09-22",
+    "json_representation": "researcher_approved",
+    "json_representation_date": "2026-09-22",
+    "note": "The methodological content and this complete JSON representation were both reviewed and approved by the researcher. The rubric remains a reconstruction, not the original human codebook; see provenance_status."
+  },
+  "provenance_status": "reconstructed_ex_ante_from_published_construct_definition_and_examples",
+  "original_human_codebook_available": false,
+  "provenance_note": {
+    "summary": "This rubric is NOT the original codebook used by Carlson and Burbano's human annotators. That codebook is not available in the materials we hold. The rubric was authored ex ante by the researcher from what the paper does publish.",
+    "published_by_the_paper": [
+      "The distinction between a benefit to the broader society and a benefit that is predominantly consumer-only.",
+      "The unit of evaluation: the main product or service.",
+      "Three worked examples, in Table 3.",
+      "The existence of a human training set and of a consensus validation set."
+    ],
+    "not_published_by_the_paper": [
+      "The complete annotation codebook.",
+      "The detailed instructions given to the human coders.",
+      "Exhaustive rules for borderline cases."
+    ],
+    "consequence": "Any divergence between this rubric and the human labels is a reconstruction difference, not a measurement failure of the models. It must be reported as such."
+  },
+  "qualifier": {
+    "canonical_expression": "beyond ordinary private consumer utility",
+    "rule": "This exact wording is used in the rubric, in the label set and in the Camuffo system prompt. No paraphrase of it is permitted in those three files.",
+    "superseded_expressions": ["beyond the ordinary private utility of the consumer"],
+    "forbidden_expressions": ["beyond its direct consumers", "beyond the direct consumers"],
+    "forbidden_reason": "The consumer-exclusion wording is narrower than the construct. It would exclude educational, health-related and accessibility benefits that also reach the direct users.",
+    "decided_by": "researcher",
+    "decided_date": "2026-09-22"
+  },
+  "unit_of_evaluation": {
+    "scope": "Only the main product or service described by the campaign.",
+    "includes": "Production, distribution or access processes, but only when they are integral to the offering, whether current or planned. A campaign necessarily describes a prospective offering.",
+    "excludes": "Campaign framing, founder biographies, and commitments or initiatives that are ancillary to the main offering."
+  },
+  "assign_1_when": {
+    "requirement": "The text describes a concrete and plausible mechanism through which the main product or service generates a benefit beyond ordinary private consumer utility.",
+    "benefit_domains": [
+      "social",
+      "environmental",
+      "health",
+      "educational",
+      "safety",
+      "accessibility",
+      "inclusion",
+      "working conditions",
+      "collective infrastructure",
+      "other public interest"
+    ]
+  },
+  "assign_0_when": [
+    "The claimed benefit is limited to ordinary consumer utility.",
+    "It relies only on generic language such as 'green', 'ethical', 'sustainable' or 'community'.",
+    "It depends only on the founder's intentions or an incidental donation.",
+    "The information is insufficient."
+  ],
+  "operational_rules": [
+    {
+      "id": "main_offering_only",
+      "rule": "Only the main product or service is evaluated."
+    },
+    {
+      "id": "integral_processes_only",
+      "rule": "Production, distribution and access count only when integral to the offering."
+    },
+    {
+      "id": "concrete_mechanism_required",
+      "rule": "A concrete and plausible mechanism of societal benefit beyond ordinary private consumer utility is required."
+    },
+    {
+      "id": "direct_users_do_not_disqualify",
+      "rule": "A benefit may qualify even when it reaches direct users."
+    },
+    {
+      "id": "generic_language_insufficient",
+      "rule": "Generic words such as green, ethical, sustainable or community are not enough."
+    },
+    {
+      "id": "intentions_and_donations_insufficient",
+      "rule": "The founder's intentions and incidental donations are not enough."
+    },
+    {
+      "id": "fair_trade_and_labour",
+      "rule": "Fair trade and improved working conditions qualify only when the mechanism is concrete and integrated into the product or its production."
+    },
+    {
+      "id": "insufficient_information",
+      "rule": "Insufficient information yields 0."
+    },
+    {
+      "id": "no_success_forecasting",
+      "rule": "The campaign's probability of success is not evaluated."
+    },
+    {
+      "id": "no_realised_impact_required",
+      "rule": "Evidence of realised ex post causal impact is not required. The described mechanism is what is evaluated."
+    }
+  ],
+  "removed_rules": {
+    "note": "These rules were drafted, then withdrawn by the researcher on 2026-09-22 as not sufficiently grounded in the published materials. They are recorded for the audit trail only. They are NOT operational, are NOT sent to any model, and must not influence annotation.",
+    "status": "non_operational",
+    "rules": [
+      "health_products",
+      "price_and_convenience",
+      "cultural_products",
+      "job_creation_and_growth"
+    ]
+  },
+  "anchors": {
+    "status": "illustrative_not_exhaustive",
+    "provenance": {
+      "source": "Carlson and Burbano (2026), Table 3, Few-Shot row, page 13",
+      "file": "docs/sources/carlson_burbano_2026.pdf",
+      "file_sha256": "a6e723d03d4a617fd8875f12eb9a1824ce9aa6e7edf3a48be1a97aca3b15d7ce",
+      "note": "These three examples are published in the paper's own Few-Shot prompt. They were NOT derived from inspecting the human labels of the 250 campaigns, so using them introduces no dependence on the benchmark."
+    },
+    "shared_across_paraphrases": true,
+    "shared_note": "The same three anchors appear, identically worded, in the shared Camuffo system prompt template. They are a common anchor for all three paraphrases and for both label orders, and are therefore not a source of variation.",
+    "examples": [
+      {
+        "text": "Solar-powered water purifier for communities",
+        "label": 1,
+        "published_reason": "benefits the environment and public health"
+      },
+      {
+        "text": "Educational coding app for children",
+        "label": 1,
+        "published_reason": "benefits education and skill development"
+      },
+      {
+        "text": "Premium leather accessories",
+        "label": 0,
+        "published_reason": "the benefit is consumer-only"
+      }
+    ]
+  },
+  "amendment_policy": "These rules are fixed. They must not be modified or extended without an explicit, recorded researcher decision and a new rubric version."
+}

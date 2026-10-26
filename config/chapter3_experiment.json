@@ -1,0 +1,161 @@
+{
+  "review_redaction": {
+    "derived_from": "config/chapter3_experiment.json",
+    "original_sha256": "3134083a9b284b4e43c517828d82130d6e5364e6d4709272ecc6e2db65b12375",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "models.[2].selection_decision.upstream_not_chosen",
+      "models.[2].selection_decision.upstream_eligibility_probe",
+      "downstream.specification_decision.replication_evidence",
+      "downstream.specification_decision.separation_handling"
+    ]
+  },
+  "schema_version": "1.0",
+  "study": {
+    "id": "chapter3_psm_v1",
+    "title": "Chapter 3 contingency framework",
+    "status": "draft_until_preregistered",
+    "created_date": "2026-09-16"
+  },
+  "dataset": {
+    "path": "data/test_sample.csv",
+    "encoding": "latin1",
+    "expected_rows": 250,
+    "text_column": "text",
+    "human_label_column": "HUMAN",
+    "outcome_column": "success",
+    "control_columns": [
+      "lgoal",
+      "subcategory",
+      "year"
+    ],
+    "item_id_prefix": "CB",
+    "encoding_decision": {
+      "date": "2026-09-20",
+      "decided_by": "user",
+      "status": "interim_policy_recorded",
+      "finding": "The supplied CSV is not valid UTF-8. Read as Latin-1 it preserves all bytes but contains 3,813 C1 control characters across 216 of 250 rows, plus several corrupted passages. No clean UTF-8 version exists in the supplied materials or in the included Git history.",
+      "policy": "Read as Latin-1 and send the text unchanged. Preserve the original file intact. Apply no normalization or repair, silently or otherwise.",
+      "implemented_as": "text_policy=as_is_latin1, the only implemented policy; any other value is refused",
+      "future_work": "A recovered clean version, if obtained, is a robustness check only and never replaces the replication input."
+    }
+  },
+  "construct": {
+    "name": "societal_benefit",
+    "label_0": "The main product or service primarily benefits its direct consumers.",
+    "label_1": "The main product or service benefits broader society beyond its direct consumers."
+  },
+  "system_prompt": "Return exactly one binary classification label: 0 or 1. Do not include explanations or additional text.",
+  "prompts": [
+    {
+      "id": "zero_shot",
+      "family": "zero_shot",
+      "source": "data/prompt_variations.csv:first_zero_shot",
+      "text": "Please read the text of the following Kickstarter campaign and consider the following question. Does the main product or service offered benefit the broader society (beyond its consumers)? Answer only with a number (0 or 1). Here is the text:"
+    },
+    {
+      "id": "few_shot",
+      "family": "few_shot",
+      "source": "data/prompt_variations.csv:first_few_shot",
+      "text": "Please read the text of the following Kickstarter campaign and evaluate whether the main product or service benefits the broader society (beyond its consumers). Examples: 1) 'Solar-powered water purifier for communities' = 1 (benefits environment and public health), 2) 'Premium leather accessories' = 0 (consumer-only benefit), 3) 'Educational coding app for children' = 1 (benefits education and skill development). Using these examples as guidance, classify the following text with 1 for yes or 0 for no. Answer only with a number (0 or 1). Here is the text:"
+    },
+    {
+      "id": "chain_of_thought",
+      "family": "cot",
+      "source": "data/prompt_variations.csv:first_cot",
+      "text": "Please evaluate whether the main product or service described in the following Kickstarter campaign benefits the broader society (beyond its consumers). First identify the core offering, then list consumer benefits, examine societal impacts, and assess their significance. After this analysis, provide your classification: 1 for yes (clear broader societal benefits) or 0 for no (primarily consumer benefits). Answer only with a number (0 or 1). Here is the text:"
+    },
+    {
+      "id": "tree_of_thought",
+      "family": "tot",
+      "source": "data/prompt_variations.csv:first_tot",
+      "text": "Please evaluate whether the main product or service described in the following Kickstarter campaign benefits the broader society (beyond its consumers) through three paths: 1) Impact scope (direct/indirect beneficiaries), 2) Sustainability framework (environmental/social/economic), 3) Public good criteria. Follow each path to its conclusion, then synthesize into a final 1 or 0 classification. Answer only with a number (0 or 1). Here is the text:"
+    }
+  ],
+  "models": [
+    {
+      "id": "terra_5_6",
+      "provider": "openai",
+      "api_model": "gpt-5.6-terra",
+      "selection_status": "confirmed_by_user",
+      "request_settings": {
+        "reasoning_effort": "none",
+        "max_output_tokens": 16,
+        "temperature": null
+      }
+    },
+    {
+      "id": "sonnet_5",
+      "provider": "anthropic",
+      "api_model": "claude-sonnet-5",
+      "selection_status": "confirmed_by_user",
+      "request_settings": {
+        "thinking": "disabled",
+        "max_output_tokens": 16,
+        "temperature": null
+      }
+    },
+    {
+      "id": "deepseek_v4_pro",
+      "provider": "deepseek",
+      "api_route": "openrouter",
+      "api_model": "deepseek/deepseek-v4-pro-0813",
+      "selection_status": "confirmed_by_user",
+      "selection_decision": {
+        "date": "2026-09-20",
+        "decided_by": "user",
+        "model_choice": "Pinned snapshot deepseek-v4-pro-0813 rather than the deepseek-v4-pro alias, because section 3 of the research design forbids assuming an alias is a permanent version.",
+        "route_choice": "Reached through OpenRouter rather than the DeepSeek first-party API, because the available key is an OpenRouter key.",
+        "upstream_choice": "Pinned to the Baidu endpoint with fallbacks disabled. The model is served by 24 endpoints whose quantization ranges from fp8 to fp4; without pinning the router may vary the served weights between calls. Baidu is the cheapest eligible endpoint and the only cheap one that declares its quantization (fp8) rather than reporting it as unknown.",
+        "verified_against": "OpenRouter /models and /models/{id}/endpoints, probed 2026-09-20"
+      },
+      "request_settings": {
+        "reasoning": "disabled",
+        "max_output_tokens": 16,
+        "temperature": null,
+        "openrouter_provider_only": [
+          "Baidu"
+        ],
+        "openrouter_allow_fallbacks": false
+      }
+    }
+  ],
+  "replicates": {
+    "count": 3,
+    "definition": "Independent successful calls under an unchanged item, prompt, model, and request configuration.",
+    "retry_rule": "A transport or parsing retry does not count as a new replicate."
+  },
+  "execution": {
+    "live_calls_enabled": false,
+    "pilot_item_count": 12,
+    "pilot_selection": "deterministic_hash_without_human_labels",
+    "reuse_pilot_outputs_in_final_analysis": false,
+    "expected_full_calls": 9000,
+    "require_explicit_full_run_flag": true
+  },
+  "aggregation": {
+    "repeat_level": "majority vote across the three repeated calls within each prompt-model cell",
+    "cross_configuration_primary": "majority vote across the twelve repeat-aggregated prompt-model cells",
+    "tie_policy": "unresolved_fail_closed",
+    "tie_sensitivity": [
+      "assign_zero",
+      "assign_one",
+      "exclude_tied_items"
+    ]
+  },
+  "downstream": {
+    "family": "binomial_logit",
+    "primary_formula": "success ~ annotation + lgoal + C(subcategory) + C(year)",
+    "coefficient_of_interest": "annotation",
+    "benchmark_labels": "HUMAN",
+    "secondary_formula_pending_approval": "success ~ annotation + lgoal + C(year)",
+    "specification_decision": {
+      "date": "2026-09-20",
+      "decided_by": "user",
+      "status": "confirmed_closed",
+      "estimation_sample": "The 250 observations are the gold-standard validation sample with author-agreed human labels. The Figure 1 downstream regression in Carlson and Burbano uses these same 250 observations, not the 295,985 campaigns.",
+      "do_not_use": "The Gaussian/OLS regression shown in some README examples is not the replication specification.",
+      "full_dataset_note": "The 295,985-campaign dataset is not required to replicate Figure 1 and is absent from this repository. It may become necessary for a Mullainathan-type correction, depending on the estimator finally chosen."
+    }
+  }
+}

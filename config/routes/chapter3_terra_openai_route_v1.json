@@ -1,0 +1,115 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_terra_openai_route_v1.json",
+    "original_sha256": "83edc64c279c0f492df6fcf73eba198379e684e154f935fb3f1e5d327a976d28",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": "nothing: no observed field was found"
+  },
+  "route_id": "chapter3_terra_openai_route_v1",
+  "created_utc": "2026-10-21",
+  "scope": "first-party smoke for GPT-5.6 Terra on item CB221, 16 calls. Pilot and full are not covered.",
+  "model": {
+    "model_id": "terra_5_6",
+    "api_route": "openai",
+    "api_model": "gpt-5.6-terra",
+    "interface": "Chat Completions, client.chat.completions.create",
+    "endpoint": "OpenAI SDK default base URL (first-party API)",
+    "credential_env_var": "OPENAI_API_KEY",
+    "gateway": null,
+    "expected_upstream_provider": null
+  },
+  "request_settings_on_the_wire": {
+    "carlson": {
+      "temperature": 0,
+      "max_completion_tokens": 16,
+      "reasoning_effort": "none",
+      "system_message": false
+    },
+    "camuffo": {
+      "temperature": 1,
+      "max_completion_tokens": 1,
+      "reasoning_effort": "none",
+      "system_message": true
+    },
+    "never_sent": [
+      "top_p",
+      "top_logprobs",
+      "stream"
+    ],
+    "sdk_retries": "max_retries=0 on the client; the runner makes one attempt per task"
+  },
+  "documented_capabilities": {
+    "reasoning_effort_none": {
+      "status": "documented",
+      "evidence": "The model page lists reasoning_effort values none, low, medium (default), high, xhigh and max. Function-calling examples pass reasoning_effort 'none' with gpt-5.6-terra on Chat Completions.",
+      "sources": [
+        "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+        "https://developers.openai.com/api/docs/guides/function-calling"
+      ],
+      "to_confirm_in_smoke": "the request is accepted and usage reports zero reasoning tokens"
+    },
+    "temperature_with_reasoning_none": {
+      "status": "documented",
+      "evidence": "The model guidance says temperature, top_p and top_logprobs must be removed when reasoning_effort is not 'none'; with 'none' they are supported.",
+      "sources": [
+        "https://developers.openai.com/api/docs/guides/latest-model"
+      ],
+      "to_confirm_in_smoke": "temperature 0 and 1 are both accepted alongside reasoning_effort 'none'"
+    },
+    "max_completion_tokens": {
+      "status": "documented_without_a_stated_minimum",
+      "evidence": "An upper bound on generated tokens, visible output and reasoning tokens together. No minimum value is stated in what was read.",
+      "sources": [
+        "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create"
+      ],
+      "to_confirm_in_smoke": "a cap of 1 is accepted and can return a complete '0' or '1'; finish_reason under each cap is recorded"
+    },
+    "usage_fields": {
+      "status": "documented",
+      "fields": {
+        "prompt_tokens": "all input tokens, cached and written included",
+        "prompt_tokens_details.cached_tokens": "cache reads",
+        "prompt_tokens_details.cache_write_tokens": "cache writes; location inside the usage block to be confirmed in the smoke",
+        "completion_tokens": "all output tokens, reasoning included",
+        "completion_tokens_details.reasoning_tokens": "reasoning tokens; optional in the reference, recorded as null and 'not reported' when absent"
+      },
+      "cost_in_response": false,
+      "sources": [
+        "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create",
+        "https://developers.openai.com/api/docs/guides/prompt-caching"
+      ]
+    },
+    "returned_model_string": {
+      "status": "unverified",
+      "evidence": "Nothing read states whether the response reports 'gpt-5.6-terra' or a dated snapshot name. The contract expects 'gpt-5.6-terra' exactly; a different string stops the segment after the first call, which is recorded."
+    },
+    "prompt_caching": {
+      "status": "documented",
+      "evidence": "Minimum cacheable prompt 1,024 tokens for GPT-5.6 and later. Writes are billed at 1.25x uncached input instead of the input charge; reads at 0.1x."
+    }
+  },
+  "tariff": {
+    "snapshot_id": "openai_gpt-5.6-terra_2026-10-21",
+    "unit": "usd_per_million_tokens",
+    "input": 2.0,
+    "cached_input": 0.2,
+    "cache_write": 2.5,
+    "output": 12.0,
+    "long_context_threshold_input_tokens": 272000,
+    "retrieved_at": "2026-10-21",
+    "retrieval_method": "search_extract_of_official_documentation",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-5.6-terra",
+      "https://developers.openai.com/api/docs/guides/prompt-caching"
+    ],
+    "caveat": "The launch post still shows $2.50 input and $15.00 output; the model page shows the rates after the 30 July price drop, used here. The extract was partly garbled: confirm on the pricing page before authorising a paid run. A changed rate needs a new snapshot id and a new route version.",
+    "code": "python/src/chapter3/first_party.py, TARIFFS[snapshot_id]; the test suite checks the two agree"
+  },
+  "cost_estimate": {
+    "kind": "local_estimate_not_billing",
+    "formula": "(prompt_tokens - cached_tokens - cache_write_tokens) x input + cached_tokens x cached_input + cache_write_tokens x cache_write + completion_tokens x output",
+    "no_double_count": "reasoning tokens are already inside completion_tokens and are not added again",
+    "missing_cache_fields": "taken as zero, so those tokens are priced at the ordinary input rate; an unreported write would be underpriced by a quarter of its input cost",
+    "use": "operational budget guard (--max-usd). Not the bill."
+  }
+}

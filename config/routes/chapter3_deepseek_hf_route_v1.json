@@ -1,0 +1,118 @@
+{
+  "review_redaction": {
+    "derived_from": "config/routes/chapter3_deepseek_hf_route_v1.json",
+    "original_sha256": "19b43fdcc639db3630d479c7b11242b671a7672b22ba06ea5dcc3f082d9a820e",
+    "purpose": "Reviewer-facing derived copy (decision D-EXPORT-03), not the frozen file. Observed fields (outcomes of probes, smokes and pilots, token counts, real costs, real-run dates, corrections about earlier reports, paths under runs/) are removed; every settings field is unchanged.",
+    "removed": [
+      "relationship_to_existing_route.existing_route_artefacts",
+      "relationship_to_existing_route.the_openrouter_pilot_remains"
+    ],
+    "hashes_note": "Hashes recorded in this file refer to the original files, which are not distributed; they do not match the derived copies."
+  },
+  "route_id": "chapter3_deepseek_hf_route_v1",
+  "status": "candidate_blocked_on_reasoning_gate",
+  "created_utc": "2026-09-30",
+  "purpose": "A second, parallel route to the DeepSeek model through the Hugging Face Inference Providers router. It exists alongside the OpenRouter/Baidu route and replaces nothing.",
+  "relationship_to_existing_route": {
+    "existing_route": "OpenRouter -> Baidu -> deepseek/deepseek-v4-pro-0813",
+    "existing_route_is_modified_by_this_file": false,
+    "results_may_be_pooled": false,
+    "reason_results_may_not_be_pooled": "Baidu does not serve this model on Hugging Face at all, so the two routes cannot reach the same backend. The nominal model name being identical is not evidence that the served weights, quantization, sampling defaults or reasoning behaviour are."
+  },
+  "gateway": {
+    "name": "huggingface_router",
+    "base_url": "https://router.huggingface.co/v1",
+    "credential_env_var": "HF_TOKEN",
+    "credential_note": "HF_TOKEN only. OPENROUTER_API_KEY is never accepted on this route; the adapter declares its own environment variable and the resolver reads no other."
+  },
+  "candidate_model_entry": {
+    "id": "deepseek_v4_pro_hf_deepinfra",
+    "provider": "deepseek",
+    "api_route": "huggingface",
+    "api_model": "deepseek-ai/DeepSeek-V4-Pro-0813:deepinfra",
+    "selection_status": "proposed_pending_live_smoke",
+    "selection_status_note": "Deliberately not 'confirmed_by_user'. The existing collect_blockers gate refuses a live run for any model whose selection is unconfirmed, so this entry cannot start a paid run by accident.",
+    "request_settings": {
+      "huggingface_provider": "deepinfra",
+      "huggingface_allow_fallbacks": false,
+      "huggingface_reasoning_control": null,
+      "temperature_requested": null,
+      "temperature_control": "unverified",
+      "temperature_verification_source": null
+    },
+    "request_settings_note": "huggingface_reasoning_control is null on purpose. The adapter refuses to build a request until a value is recorded, so the reasoning decision has to be made explicitly rather than inherited."
+  },
+  "provider_pinning": {
+    "mechanism": "provider name appended to the model id, '<repository>:<provider>'",
+    "refused": [
+      "auto",
+      "fastest",
+      "cheapest",
+      "preferred"
+    ],
+    "refused_reason": "Each of these delegates the choice of backend to the router at request time, by a criterion that can change between calls. The served weights would not be held constant.",
+    "account_preference_order_used": false,
+    "fallbacks": false
+  },
+  "tariff_snapshot": {
+    "id": "hf_router_v1_models_2026-09-30",
+    "source": "GET https://router.huggingface.co/v1/models",
+    "retrieved_at": "2026-09-30",
+    "unit": "usd_per_million_tokens",
+    "markup": "none; Hugging Face states it passes provider rates through",
+    "rates": {
+      "baseten": {
+        "input": 1.32,
+        "output": 3.96
+      },
+      "deepinfra": {
+        "input": 1.3,
+        "output": 2.6
+      },
+      "novita": {
+        "input": 1.32,
+        "output": 3.96
+      },
+      "together": {
+        "input": 1.32,
+        "output": 3.96
+      }
+    },
+    "use": "cost_estimated only, never cost. The router reports no per-request cost, so a figure derived from this table is an estimate from a dated price list and is recorded in a field of its own."
+  },
+  "future_artefact_identifiers": {
+    "scheme": "deepseek_hf_<provider>_<scope>_v1",
+    "smoke": "deepseek_hf_deepinfra_smoke_v1",
+    "pilot": "deepseek_hf_deepinfra_pilot_v1",
+    "full": "deepseek_hf_deepinfra_full_v1",
+    "note": "No manifest under these identifiers has been generated. They are reserved so that Hugging Face artefacts can never be confused with the OpenRouter ones in a directory listing, a log or a join."
+  },
+  "drift_controls": {
+    "recorded_per_call": [
+      "gateway",
+      "requested_model",
+      "requested_provider",
+      "api_model_returned",
+      "upstream_provider"
+    ],
+    "upstream_provider_rule": "Recorded only if the response states it. Never filled in from the provider that was requested; a null means nobody said, not that the request was honoured.",
+    "payload_sha256_scope": "unchanged: the experimental payload, system and user messages only",
+    "routing_is_not_in_payload_sha256": "Routing and sampling parameters are verified separately and recorded in their own fields, so two calls with an identical payload digest but different routing remain distinguishable."
+  },
+  "interpretive_limits": {
+    "this_route_can_validate": [
+      "HF_TOKEN",
+      "the Hugging Face router",
+      "the selected Hugging Face provider",
+      "DeepSeek reached through that specific route",
+      "integration with the shared pipeline"
+    ],
+    "this_route_cannot_validate": [
+      "a future OpenAI key",
+      "a future Anthropic key",
+      "the behaviour of GPT-5.6 Terra",
+      "the behaviour of Claude Sonnet 5",
+      "any property of the OpenRouter/Baidu route"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+# Review package dependencies (versions used for development and testing).
+# numpy and scipy are required; matplotlib is used only for the optional E1 plot.
+numpy==2.5.3
+scipy==1.18.1
+matplotlib==3.11.2

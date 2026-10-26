@@ -1,0 +1,502 @@
+{
+  "allowlist_version": 1,
+  "note": "Every file of the review package, one by one. Anything not listed stays private or out of scope. AI_disclosure.md is not listed and is added only if the author says so. The Chapter 3 files that record observations enter only as reviewer-facing derived copies (docs/chapter4_v2/export/redacted/, D-EXPORT-03); the cost estimator stays out (D-EXPORT-02). Under data/ only the three starting inputs pinned in the export builder are listed.",
+  "entries": [
+    {
+      "source": "docs/chapter4_v2/export/README.md",
+      "dest": "README.md"
+    },
+    {
+      "source": "docs/chapter4_v2/export/gitignore",
+      "dest": ".gitignore"
+    },
+    {
+      "source": "docs/chapter4_v2/export/requirements-review.txt",
+      "dest": "requirements-review.txt"
+    },
+    {
+      "source": "LICENSE",
+      "dest": "LICENSE"
+    },
+    {
+      "source": "config/analysis/chapter4_analysis_spec_v2.json",
+      "dest": "config/analysis/chapter4_analysis_spec_v2.json"
+    },
+    {
+      "source": "config/analysis/chapter4_decision_register_v2.json",
+      "dest": "config/analysis/chapter4_decision_register_v2.json"
+    },
+    {
+      "source": "docs/chapter4_v2/decision_register.md",
+      "dest": "docs/chapter4_v2/decision_register.md"
+    },
+    {
+      "source": "docs/chapter4_v2/reviewer_guide.md",
+      "dest": "docs/chapter4_v2/reviewer_guide.md"
+    },
+    {
+      "source": "docs/chapter4_v2/test_separation.md",
+      "dest": "docs/chapter4_v2/test_separation.md"
+    },
+    {
+      "source": "docs/chapter4_v2/file_separation.md",
+      "dest": "docs/chapter4_v2/file_separation.md"
+    },
+    {
+      "source": "docs/chapter4_v2/review_export_allowlist.json",
+      "dest": "docs/chapter4_v2/review_export_allowlist.json"
+    },
+    {
+      "source": "python/src/__init__.py",
+      "dest": "python/src/__init__.py"
+    },
+    {
+      "source": "python/src/chapter3/__init__.py",
+      "dest": "python/src/chapter3/__init__.py"
+    },
+    {
+      "source": "python/src/chapter3/aggregation.py",
+      "dest": "python/src/chapter3/aggregation.py"
+    },
+    {
+      "source": "python/src/chapter3/analysis.py",
+      "dest": "python/src/chapter3/analysis.py"
+    },
+    {
+      "source": "python/src/chapter3/bootstrap.py",
+      "dest": "python/src/chapter3/bootstrap.py"
+    },
+    {
+      "source": "python/src/chapter3/catalog.py",
+      "dest": "python/src/chapter3/catalog.py"
+    },
+    {
+      "source": "python/src/chapter3/design.py",
+      "dest": "python/src/chapter3/design.py"
+    },
+    {
+      "source": "python/src/chapter3/execution.py",
+      "dest": "python/src/chapter3/execution.py"
+    },
+    {
+      "source": "python/src/chapter3/first_party.py",
+      "dest": "python/src/chapter3/first_party.py"
+    },
+    {
+      "source": "python/src/chapter3/hierarchy.py",
+      "dest": "python/src/chapter3/hierarchy.py"
+    },
+    {
+      "source": "python/src/chapter3/huggingface.py",
+      "dest": "python/src/chapter3/huggingface.py"
+    },
+    {
+      "source": "python/src/chapter3/metrics.py",
+      "dest": "python/src/chapter3/metrics.py"
+    },
+    {
+      "source": "python/src/chapter3/providers.py",
+      "dest": "python/src/chapter3/providers.py"
+    },
+    {
+      "source": "python/src/chapter3/results.py",
+      "dest": "python/src/chapter3/results.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/__init__.py",
+      "dest": "python/src/chapter3/chapter4_v2/__init__.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/aggregation.py",
+      "dest": "python/src/chapter3/chapter4_v2/aggregation.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/analysis_status.py",
+      "dest": "python/src/chapter3/chapter4_v2/analysis_status.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/annotation_framework.py",
+      "dest": "python/src/chapter3/chapter4_v2/annotation_framework.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/comparisons.py",
+      "dest": "python/src/chapter3/chapter4_v2/comparisons.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/decisions.py",
+      "dest": "python/src/chapter3/chapter4_v2/decisions.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/downstream.py",
+      "dest": "python/src/chapter3/chapter4_v2/downstream.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/firth.py",
+      "dest": "python/src/chapter3/chapter4_v2/firth.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/framework.py",
+      "dest": "python/src/chapter3/chapter4_v2/framework.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/framework_bootstrap.py",
+      "dest": "python/src/chapter3/chapter4_v2/framework_bootstrap.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/h1.py",
+      "dest": "python/src/chapter3/chapter4_v2/h1.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/h2.py",
+      "dest": "python/src/chapter3/chapter4_v2/h2.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/h3.py",
+      "dest": "python/src/chapter3/chapter4_v2/h3.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/h4_e1.py",
+      "dest": "python/src/chapter3/chapter4_v2/h4_e1.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/inputs.py",
+      "dest": "python/src/chapter3/chapter4_v2/inputs.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/io_boundary.py",
+      "dest": "python/src/chapter3/chapter4_v2/io_boundary.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/pending.py",
+      "dest": "python/src/chapter3/chapter4_v2/pending.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/procedures.py",
+      "dest": "python/src/chapter3/chapter4_v2/procedures.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/provenance.py",
+      "dest": "python/src/chapter3/chapter4_v2/provenance.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/r/firth_adapter.R",
+      "dest": "python/src/chapter3/chapter4_v2/r/firth_adapter.R"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/reporting.py",
+      "dest": "python/src/chapter3/chapter4_v2/reporting.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/robustness.py",
+      "dest": "python/src/chapter3/chapter4_v2/robustness.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/samples.py",
+      "dest": "python/src/chapter3/chapter4_v2/samples.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/scores.py",
+      "dest": "python/src/chapter3/chapter4_v2/scores.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/spec.py",
+      "dest": "python/src/chapter3/chapter4_v2/spec.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/synthetic.py",
+      "dest": "python/src/chapter3/chapter4_v2/synthetic.py"
+    },
+    {
+      "source": "python/src/chapter3/chapter4_v2/thresholds.py",
+      "dest": "python/src/chapter3/chapter4_v2/thresholds.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/_guard.py",
+      "dest": "python/tests/chapter4_v2/_guard.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/fixtures.py",
+      "dest": "python/tests/chapter4_v2/fixtures.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_analysis_status.py",
+      "dest": "python/tests/chapter4_v2/test_analysis_status.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_decision_register.py",
+      "dest": "python/tests/chapter4_v2/test_decision_register.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_downstream.py",
+      "dest": "python/tests/chapter4_v2/test_downstream.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_firth_assessment.py",
+      "dest": "python/tests/chapter4_v2/test_firth_assessment.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_firth_r.py",
+      "dest": "python/tests/chapter4_v2/test_firth_r.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_framework_bootstrap.py",
+      "dest": "python/tests/chapter4_v2/test_framework_bootstrap.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_framework_quantities.py",
+      "dest": "python/tests/chapter4_v2/test_framework_quantities.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_guard.py",
+      "dest": "python/tests/chapter4_v2/test_guard.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_h1.py",
+      "dest": "python/tests/chapter4_v2/test_h1.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_h2.py",
+      "dest": "python/tests/chapter4_v2/test_h2.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_h3.py",
+      "dest": "python/tests/chapter4_v2/test_h3.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_hygiene.py",
+      "dest": "python/tests/chapter4_v2/test_hygiene.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_imports.py",
+      "dest": "python/tests/chapter4_v2/test_imports.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_inputs.py",
+      "dest": "python/tests/chapter4_v2/test_inputs.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_io_boundary.py",
+      "dest": "python/tests/chapter4_v2/test_io_boundary.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_kappa.py",
+      "dest": "python/tests/chapter4_v2/test_kappa.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_preserve_private.py",
+      "dest": "python/tests/chapter4_v2/test_preserve_private.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_procedures_aggregation.py",
+      "dest": "python/tests/chapter4_v2/test_procedures_aggregation.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_provenance.py",
+      "dest": "python/tests/chapter4_v2/test_provenance.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_reporting.py",
+      "dest": "python/tests/chapter4_v2/test_reporting.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_robustness.py",
+      "dest": "python/tests/chapter4_v2/test_robustness.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_samples_scores.py",
+      "dest": "python/tests/chapter4_v2/test_samples_scores.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_spec.py",
+      "dest": "python/tests/chapter4_v2/test_spec.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_thresholds_comparisons.py",
+      "dest": "python/tests/chapter4_v2/test_thresholds_comparisons.py"
+    },
+    {
+      "source": "python/scripts/chapter4_v2_analysis.py",
+      "dest": "python/scripts/chapter4_v2_analysis.py"
+    },
+    {
+      "source": "python/scripts/chapter4_v2_build_review_export.py",
+      "dest": "python/scripts/chapter4_v2_build_review_export.py"
+    },
+    {
+      "source": "python/scripts/chapter4_v2_preserve_private.py",
+      "dest": "python/scripts/chapter4_v2_preserve_private.py"
+    },
+    {
+      "source": "python/scripts/chapter4_v2_synthetic_example.py",
+      "dest": "python/scripts/chapter4_v2_synthetic_example.py"
+    },
+    {
+      "source": "python/tests/chapter4_v2/test_review_export.py",
+      "dest": "python/tests/chapter4_v2/test_review_export.py"
+    },
+    {
+      "source": "config/labels/societal_benefit_labels_v1.json",
+      "dest": "config/labels/societal_benefit_labels_v1.json"
+    },
+    {
+      "source": "config/prompts/camuffo_societal_benefit_P3_v1.json",
+      "dest": "config/prompts/camuffo_societal_benefit_P3_v1.json"
+    },
+    {
+      "source": "config/prompts/carlson_table3_v1.json",
+      "dest": "config/prompts/carlson_table3_v1.json"
+    },
+    {
+      "source": "config/rubrics/societal_benefit_v1.json",
+      "dest": "config/rubrics/societal_benefit_v1.json"
+    },
+    {
+      "source": "python/src/chapter3/manifest.py",
+      "dest": "python/src/chapter3/manifest.py"
+    },
+    {
+      "source": "python/src/chapter3/runner_two_arm.py",
+      "dest": "python/src/chapter3/runner_two_arm.py"
+    },
+    {
+      "source": "python/scripts/chapter3_design.py",
+      "dest": "python/scripts/chapter3_design.py"
+    },
+    {
+      "source": "python/scripts/chapter3_execute.py",
+      "dest": "python/scripts/chapter3_execute.py"
+    },
+    {
+      "source": "config/experiments/chapter3_comparative_experiment_v1.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v1.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v3_hf_full.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v3_hf_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_deepseek_hf_route_v1.json",
+      "dest": "config/routes/chapter3_deepseek_hf_route_v1.json"
+    },
+    {
+      "source": "python/tests/chapter3/test_catalog.py",
+      "dest": "python/tests/chapter3/test_catalog.py"
+    },
+    {
+      "source": "python/tests/chapter3/test_hierarchy.py",
+      "dest": "python/tests/chapter3/test_hierarchy.py"
+    },
+    {
+      "source": "python/tests/chapter3/test_results.py",
+      "dest": "python/tests/chapter3/test_results.py"
+    },
+    {
+      "source": "python/tests/chapter3/test_providers.py",
+      "dest": "python/tests/chapter3/test_providers.py"
+    },
+    {
+      "source": "python/tests/chapter3/test_manifest.py",
+      "dest": "python/tests/chapter3/test_manifest.py"
+    },
+    {
+      "source": "python/tests/chapter3/test_runner_row_settings.py",
+      "dest": "python/tests/chapter3/test_runner_row_settings.py"
+    },
+    {
+      "source": "python/tests/chapter3/_fakes.py",
+      "dest": "python/tests/chapter3/_fakes.py"
+    },
+    {
+      "source": "python/scripts/chapter4_v2_redact_for_review.py",
+      "dest": "python/scripts/chapter4_v2_redact_for_review.py"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/chapter3_experiment.json",
+      "dest": "config/chapter3_experiment.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v2_hf.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v2_hf.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v4_first_party_smoke.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v4_first_party_smoke.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v5_terra_camuffo_cap16_smoke.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v5_terra_camuffo_cap16_smoke.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v6_terra_pilot.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v6_terra_pilot.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v7_terra_full.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v7_terra_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v8_sonnet_pilot.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v8_sonnet_pilot.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/experiments/chapter3_comparative_experiment_v9_sonnet_full.json",
+      "dest": "config/experiments/chapter3_comparative_experiment_v9_sonnet_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_deepseek_hf_route_v2.json",
+      "dest": "config/routes/chapter3_deepseek_hf_route_v2.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_deepseek_hf_route_v3_full.json",
+      "dest": "config/routes/chapter3_deepseek_hf_route_v3_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_sonnet_anthropic_route_v1.json",
+      "dest": "config/routes/chapter3_sonnet_anthropic_route_v1.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_sonnet_anthropic_route_v2.json",
+      "dest": "config/routes/chapter3_sonnet_anthropic_route_v2.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_sonnet_anthropic_route_v3_pilot.json",
+      "dest": "config/routes/chapter3_sonnet_anthropic_route_v3_pilot.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_sonnet_anthropic_route_v4_full.json",
+      "dest": "config/routes/chapter3_sonnet_anthropic_route_v4_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_terra_openai_route_v1.json",
+      "dest": "config/routes/chapter3_terra_openai_route_v1.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_terra_openai_route_v2.json",
+      "dest": "config/routes/chapter3_terra_openai_route_v2.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_terra_openai_route_v3_pilot.json",
+      "dest": "config/routes/chapter3_terra_openai_route_v3_pilot.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/config/routes/chapter3_terra_openai_route_v4_full.json",
+      "dest": "config/routes/chapter3_terra_openai_route_v4_full.json"
+    },
+    {
+      "source": "docs/chapter4_v2/export/redacted/python/scripts/chapter3_execute_two_arm.py",
+      "dest": "python/scripts/chapter3_execute_two_arm.py"
+    },
+    {
+      "source": "data/test_sample.csv",
+      "dest": "data/test_sample.csv"
+    },
+    {
+      "source": "data/prompt_variations.csv",
+      "dest": "data/prompt_variations.csv"
+    },
+    {
+      "source": "data/prompt_creation_template.txt",
+      "dest": "data/prompt_creation_template.txt"
+    }
+  ]
+}
